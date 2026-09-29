@@ -182,14 +182,22 @@ export async function autoCreateGoogleSheetViaApi(
 ): Promise<{ sheetUrl: string; embedUrl: string; webhookUrl?: string }> {
 
   const config = getGoogleSheetsConfig();
-  let token = overrideToken || config.accessToken;
+  let token = '';
 
   // 1. If Service Account Email and Private Key are configured in .env, auto-sign JWT token!
-  if (!token && config.serviceAccountEmail && config.serviceAccountPrivateKey) {
+  if (config.serviceAccountEmail && config.serviceAccountPrivateKey) {
     try {
       token = await getAccessTokenFromServiceAccount(config.serviceAccountEmail, config.serviceAccountPrivateKey);
     } catch (saErr: any) {
       console.warn('Service Account auth failed:', saErr.message);
+    }
+  }
+
+  // 2. Fallback to manually provided OAuth token if Service Account token is not available
+  if (!token) {
+    const candidate = overrideToken || config.accessToken;
+    if (candidate && candidate.length > 20 && !candidate.toLowerCase().includes('not needed')) {
+      token = candidate;
     }
   }
 
@@ -291,6 +299,10 @@ export async function autoCreateGoogleSheetViaApi(
       return { sheetUrl, embedUrl };
     } catch (err: any) {
       console.warn('Google Sheets API auto-create error:', err.message);
+      const webhook = overrideWebhookUrl || config.webhookUrl;
+      if (!webhook) {
+        throw new Error(err.message || 'Google Sheets API call failed (HTTP 403 Forbidden). Ensure Google Sheets API & Google Drive API are enabled in Google Cloud Console.');
+      }
     }
   }
 

@@ -183,8 +183,11 @@ export default function AdminDashboard() {
             const { data, error } = await supabase.from('events').select('*').order('created_at', { ascending: false });
             if (!error && data) {
                 setEventsList(data);
-                if (data.length > 0 && !slotForm.eventId) {
-                    setSlotForm(s => ({ ...s, eventId: data[0].id }));
+                if (data.length > 0) {
+                    setSlotForm(s => {
+                        const exists = data.some((e: any) => e.id === s.eventId);
+                        return exists ? s : { ...s, eventId: data[0].id };
+                    });
                 }
             }
         } catch (e) {
@@ -198,6 +201,11 @@ export default function AdminDashboard() {
         e.preventDefault();
         if (!slotForm.eventId || !slotForm.date) {
             setMessage('Error: Please select an event and provide a date.');
+            return;
+        }
+
+        if (!eventsList.some(e => e.id === slotForm.eventId)) {
+            setMessage('Error: Please select a valid existing event from the dropdown.');
             return;
         }
 

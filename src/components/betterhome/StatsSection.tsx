@@ -72,7 +72,8 @@ export default function StatsSection() {
           {stats.map((item, index) => (
             <div
               key={index}
-              className={`group relative p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#151D2F] to-[#0D1322] border border-[#F59E0B]/25 transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_12px_30px_${item.glowColor}] ${item.borderHover} flex flex-col items-center text-center`}
+              className={`group relative p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#151D2F] to-[#0D1322] border border-[#F59E0B]/25 transition-all duration-300 hover:-translate-y-2 ${item.borderHover} flex flex-col items-center text-center`}
+              style={{ '--glow-color': item.glowColor } as React.CSSProperties}
             >
               {/* Corner CoC Stone Rivets */}
               <div className="absolute top-2.5 left-2.5 w-2 h-2 rounded-full bg-[#F59E0B]/40 group-hover:bg-[#FDE047] transition-colors" />

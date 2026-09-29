@@ -574,7 +574,7 @@ export default function NewHome() {
                     <div className="h-[40%] md:h-full w-full relative overflow-hidden">
                       <img
                         src={sparkPhaseItems[sparkIndex].image}
-                        className="w-full h-full object-cover opacity-90 md:opacity-60 transition-transform duration-[20s] ease-linear"
+                        className="w-full h-full object-cover opacity-90 md:opacity-60 transition-transform [transition-duration:20000ms] ease-linear"
                         alt={sparkPhaseItems[sparkIndex].title}
                         style={{ transform: isPlaying ? 'scale(1.2)' : 'scale(1)' }}
                       />

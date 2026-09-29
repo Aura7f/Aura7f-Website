@@ -70,7 +70,8 @@ export default function GoogleSheetsModal({
     setAutoCreating(true);
     setSyncResult('');
     try {
-      const res = await autoCreateGoogleSheetViaApi(eventTitle, webhookUrl, accessToken);
+      const validToken = accessToken && accessToken.length > 20 && !accessToken.toLowerCase().includes('not needed') ? accessToken : undefined;
+      const res = await autoCreateGoogleSheetViaApi(eventTitle, webhookUrl, validToken);
       setSheetUrl(res.sheetUrl);
       setEmbedUrl(res.embedUrl);
       if (res.webhookUrl) setWebhookUrl(res.webhookUrl);
