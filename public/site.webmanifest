@@ -1,6 +1,7 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "Aura-7F | Byte Bash Blitz",
+  "short_name": "Aura-7F",
+  "description": "Aura-7F (BashClan 1 of 4) in Byte Bash Blitz tech community.",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -15,7 +16,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "background_color": "#05020a",
   "display": "standalone"
 }

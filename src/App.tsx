@@ -1,7 +1,51 @@
 import React, { useEffect } from 'react'
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import Header from './components/Header'
-import { Footer, Visuals } from './components/index'
+import { Footer, Visuals, SEO } from './components/index'
+
+function RouteSEO() {
+  const location = useLocation()
+  const path = location.pathname
+
+  let title = 'Aura-7F | BashClan 1 of Byte Bash Blitz'
+  let description = 'Aura-7F (Aura 7f / Aura) is BashClan 1 of 4 BashClans in Byte Bash Blitz (ByteBashBlitz). Empowering Bashers with tech events, hackathons, open-source projects, and developer collaboration.'
+  let keywords = 'aura7f, aura 7f, aura, aura7f bashclan, aura 7f bashclan 1, bashclan 1, bashclan, byte bash blitz, bytebashblitz, bashers, aura7f.in, tech community, developer community, coding community'
+
+  if (path === '/' || path === '/home' || path === '/newhome' || path === '/betterhome') {
+    title = 'Aura-7F | BashClan 1 of Byte Bash Blitz'
+    description = 'Aura-7F (Aura 7f / Aura) is BashClan 1 of the 4 BashClans in Byte Bash Blitz (ByteBashBlitz). Home of the Bashers. Join us for hackathons, open-source projects, and tech workshops.'
+  } else if (path === '/about') {
+    title = 'About Aura-7F | BashClan 1 Vision & Team'
+    description = 'Learn about Aura-7F (Aura 7f), BashClan 1 of 4 BashClans in Byte Bash Blitz (ByteBashBlitz). Discover our mission, clan principles, and leadership.'
+    keywords = 'about aura7f, aura 7f about, aura7f bashclan, bashclan 1, byte bash blitz, bytebashblitz, bashers, aura7f.in'
+  } else if (path === '/events' || path === '/newevents') {
+    title = 'Events, Quizzes & Hackathons | Aura-7F BashClan 1'
+    description = 'Explore upcoming tech events, hackathons, live coding challenges, and quizzes hosted by Aura-7F (BashClan 1 of Byte Bash Blitz).'
+    keywords = 'aura7f events, aura 7f hackathons, byte bash blitz events, bytebashblitz, bashers events, aura quizzes, bashclan 1'
+  } else if (path === '/projects' || path === '/newprojects') {
+    title = 'Projects & Code Relics | Aura-7F BashClan 1'
+    description = 'Browse innovative software projects, tools, and open-source relics forged by Bashers in Aura-7F (BashClan 1 of Byte Bash Blitz).'
+    keywords = 'aura7f projects, aura 7f code, byte bash blitz projects, bytebashblitz, bashers projects, open source, bashclan 1'
+  } else if (path === '/members' || path === '/newmembers') {
+    title = 'Clan Roster & Members | Aura-7F BashClan 1'
+    description = 'Meet the Bashers, software architects, designers, and developers powering Aura-7F (BashClan 1 of Byte Bash Blitz).'
+    keywords = 'aura7f members, aura 7f team, bashclan 1 roster, byte bash blitz members, bytebashblitz, bashers'
+  } else if (path === '/milestones') {
+    title = 'Milestones & Achievements | Aura-7F BashClan 1'
+    description = 'Track key milestones, awards, project launches, and achievements of Aura-7F (BashClan 1 of Byte Bash Blitz).'
+    keywords = 'aura7f milestones, aura 7f achievements, byte bash blitz milestones, bytebashblitz, bashers'
+  } else if (path === '/gallery' || path === '/newgallery') {
+    title = 'Gallery & Highlights | Aura-7F BashClan 1'
+    description = 'Visual highlights, event photos, and memory gallery from Aura-7F (BashClan 1 of Byte Bash Blitz).'
+    keywords = 'aura7f gallery, aura 7f photos, byte bash blitz gallery, bytebashblitz, bashers photos'
+  } else if (path.startsWith('/quiz/leaderboard')) {
+    title = 'Quiz Leaderboard | Aura-7F BashClan 1'
+    description = 'Check live rankings and scoreboards for coding quizzes and technical challenges in Aura-7F (Byte Bash Blitz).'
+    keywords = 'aura7f leaderboard, aura 7f rankings, byte bash blitz quiz, bytebashblitz, bashers leaderboard'
+  }
+
+  return <SEO title={title} description={description} keywords={keywords} />
+}
 import { BackgroundBeams } from './components/ui/beams'
 import { StarfieldBackground } from './components/ui/starfield'
 import { OrbitsBackground } from './components/ui/orbits'
@@ -123,7 +167,7 @@ function AppContent() {
     }
   }, [location.pathname])
 
-  const showUnderConstruction = import.meta.env.VITE_DEV !== 'true'
+  const showUnderConstruction = import.meta.env.VITE_UNDER_CONSTRUCTION === 'true'
 
   if (showUnderConstruction) {
     return <UnderConstructionModal />
@@ -132,6 +176,7 @@ function AppContent() {
   return (
     <AuthProvider>
       <QuizAuthProvider>
+        <RouteSEO />
         <ScrollToTop />
         <div className="min-h-screen text-aura relative z-10" style={{ background: 'var(--aura-dark)', color: 'var(--aura-text)' }}>
           {/* Global Splash Cursor Effect */}

@@ -1,0 +1,25 @@
+# User-agent configuration for search engine crawlers
+User-agent: *
+Allow: /
+Allow: /home
+Allow: /about
+Allow: /events
+Allow: /projects
+Allow: /members
+Allow: /milestones
+Allow: /gallery
+Allow: /quiz/leaderboard
+
+# Disallow admin & private dashboard routes
+Disallow: /admin
+Disallow: /admindashboard
+Disallow: /guestdashboard
+Disallow: /login
+Disallow: /add-member
+Disallow: /quiz/take/
+Disallow: /quiz/live/
+Disallow: /admin/quiz/host/
+
+# XML Sitemap location
+Sitemap: https://aura7f.in/sitemap.xml
+Sitemap: https://www.aura7f.in/sitemap.xml
