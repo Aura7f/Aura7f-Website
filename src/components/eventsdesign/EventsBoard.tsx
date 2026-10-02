@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Event } from '../../lib/supabase';
-import { formatTime12h } from '../../lib/utils';
+import { formatTime12h, isRegistrationClosed, registrationDeadline } from '../../lib/utils';
 import { eventCategory } from './useEventsData';
 import PastEventsMarquee from './PastEventsMarquee';
 
@@ -35,6 +35,7 @@ const StatusChip = ({ status }: { status: string }) => {
 function EventCard({ event, onOpen }: { event: Event; onOpen?: (e: Event) => void }) {
   const hasImage = !!event.image_url;
   const open = event.status === 'upcoming' || event.status === 'live';
+  const closed = isRegistrationClosed(event);
 
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-black/55 shadow-[0_1px_3px_rgba(0,0,0,0.4),0_4px_12px_rgba(0,0,0,0.35)] ring-1 ring-white/15 backdrop-blur-md transition-all duration-200 hover:ring-[#f4d03f]/40">
@@ -83,13 +84,29 @@ function EventCard({ event, onOpen }: { event: Event; onOpen?: (e: Event) => voi
 
         <p className="mt-4 line-clamp-3 text-[13px] leading-relaxed text-white/55">{event.description}</p>
 
-        {open && onOpen && (
-          <button
-            onClick={() => onOpen(event)}
-            className="mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#f4d03f] px-6 text-[11px] font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
-          >
-            {event.status === 'live' ? 'Join raid' : 'Register'}
-          </button>
+        {open && (
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            {closed ? (
+              <span className="inline-flex h-10 cursor-not-allowed items-center justify-center rounded-full bg-white/10 px-6 text-[11px] font-black uppercase tracking-widest text-white/40 ring-1 ring-white/15">
+                Registrations closed
+              </span>
+            ) : (
+              <a
+                href={`/registration-design/${event.id}`}
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#f4d03f] px-6 text-[11px] font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
+              >
+                {event.status === 'live' ? 'Join raid' : 'Register'}
+              </a>
+            )}
+            {onOpen && (
+              <button
+                onClick={() => onOpen(event)}
+                className="inline-flex h-10 items-center justify-center rounded-full px-5 text-[11px] font-black uppercase tracking-widest text-white/70 ring-1 ring-white/20 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                Details
+              </button>
+            )}
+          </div>
         )}
       </div>
     </article>
@@ -186,6 +203,7 @@ export function EventDialog({
 }) {
   if (!event) return null;
   const past = event.status === 'ended' || event.status === 'completed';
+  const closed = isRegistrationClosed(event);
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
       <div
@@ -227,6 +245,14 @@ export function EventDialog({
               <dd className="truncate text-right text-white/80">{event.rating}</dd>
             </div>
           )}
+          {!past && (
+            <div className="flex justify-between gap-4">
+              <dt className="shrink-0 text-[11px] font-bold uppercase tracking-widest text-white/40">Registrations close</dt>
+              <dd className="truncate text-right text-white/80">
+                {closed ? 'Closed' : (registrationDeadline(event)?.toLocaleString() ?? 'Open')}
+              </dd>
+            </div>
+          )}
         </dl>
 
         <div className="mt-7 flex gap-3">
@@ -236,9 +262,9 @@ export function EventDialog({
           >
             {past ? 'Close' : 'Retreat'}
           </button>
-          {!past && (
+          {!past && !closed && (
             <a
-              href={event.max_registrations ? `/registration/${event.id}` : '#'}
+              href={`/registration-design/${event.id}`}
               className="h-10 flex-1 rounded-full bg-[#f4d03f] text-center text-[12px] font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
             >
               Sign up

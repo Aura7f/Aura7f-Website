@@ -17,3 +17,28 @@ export function formatTime12h(time24?: string | null): string {
   if (hour === 0) hour = 12
   return `${hour}:${minute} ${period}`
 }
+
+// Registrations close at the event's registration_end_time (datetime-local string).
+// When it is not set, registrations stay open until the event itself starts.
+export function registrationDeadline(event: {
+  date?: string
+  time?: string
+  registration_end_time?: string | null
+}): Date | null {
+  if (event.registration_end_time) {
+    const deadline = new Date(event.registration_end_time)
+    if (!Number.isNaN(deadline.getTime())) return deadline
+  }
+  if (!event.date) return null
+  const start = new Date(`${event.date} ${event.time || '00:00'}`)
+  return Number.isNaN(start.getTime()) ? null : start
+}
+
+export function isRegistrationClosed(event: {
+  date?: string
+  time?: string
+  registration_end_time?: string | null
+}): boolean {
+  const deadline = registrationDeadline(event)
+  return deadline ? new Date() > deadline : false
+}

@@ -17,6 +17,7 @@ export interface Event {
   date: string
   time: string
   end_time?: string
+  registration_end_time?: string
   location: string
   attendees: string
   rating: string
@@ -46,6 +47,9 @@ export interface EventRegistration {
   project_title?: string
   project_category?: string
   project_description?: string
+  privacy_consent?: boolean
+  media_consent?: boolean
+  consent_at?: string
   // Weekly bash
   attending?: boolean
   registered_at: string

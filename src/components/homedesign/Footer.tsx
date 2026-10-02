@@ -56,6 +56,7 @@ export default function Footer() {
                 { label: 'Projects', href: '/projects' },
                 { label: 'Gallery', href: '/gallery' },
                 { label: 'Milestones', href: '/milestones' },
+                { label: 'Privacy Policy', href: '/privacy-policy' },
               ].map((l) => (
                 <li key={l.href}>
                   <a

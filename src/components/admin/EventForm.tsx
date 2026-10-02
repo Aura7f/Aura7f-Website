@@ -15,6 +15,7 @@ export default function EventForm({ onEventAdded, isAdmin, editingEvent, onCance
     date: editingEvent?.date || '',
     time: editingEvent?.time || '',
     end_time: editingEvent?.end_time || '',
+    registration_end_time: editingEvent?.registration_end_time || '',
     location: editingEvent?.location || '',
     attendees: editingEvent?.attendees || '',
     rating: editingEvent?.rating || '',
@@ -39,6 +40,7 @@ export default function EventForm({ onEventAdded, isAdmin, editingEvent, onCance
         ...formData,
         max_registrations: formData.max_registrations ? parseInt(formData.max_registrations) : null,
         end_time: formData.end_time || null,
+        registration_end_time: formData.registration_end_time || null,
         custom_category: formData.tag === 'Other' ? formData.custom_category : null
       }
 
@@ -70,6 +72,7 @@ export default function EventForm({ onEventAdded, isAdmin, editingEvent, onCance
           date: '',
           time: '',
           end_time: '',
+          registration_end_time: '',
           location: '',
           attendees: '',
           rating: '',
@@ -202,6 +205,18 @@ export default function EventForm({ onEventAdded, isAdmin, editingEvent, onCance
               className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
               placeholder="3:00 PM"
             />
+          </div>
+
+          <div>
+            <label className="block text-aura text-sm font-medium mb-2">Registration Ends</label>
+            <input
+              type="datetime-local"
+              name="registration_end_time"
+              value={formData.registration_end_time}
+              onChange={handleChange}
+              className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
+            />
+            <p className="text-xs text-slate-400 mt-1">Leave empty to keep registrations open until the event starts.</p>
           </div>
 
           <div>

@@ -12,6 +12,23 @@ const parseEventDateTime = (dateStr: string, timeStr: string): Date => {
   }
 };
 
+// An event counts as over once its window has closed: after end_time when set,
+// otherwise after its start time. Anything an admin marked live stays live.
+const isEventOver = (e: Event, now: Date): boolean => {
+  if (e.status === 'ended' || e.status === 'completed') return true;
+  if (e.status === 'live') return false;
+  const start = parseEventDateTime(e.date, e.time);
+  const end = e.end_time ? parseEventDateTime(e.date, e.end_time) : null;
+  return now >= (end ?? start);
+};
+
+const isEventRunning = (e: Event, now: Date): boolean => {
+  if (e.status === 'ended' || e.status === 'completed') return false;
+  const start = parseEventDateTime(e.date, e.time);
+  const end = e.end_time ? parseEventDateTime(e.date, e.end_time) : null;
+  return now >= start && (end ? now < end : e.status === 'live');
+};
+
 const checkEventStatuses = async () => {
   try {
     const now = new Date();
@@ -23,9 +40,16 @@ const checkEventStatuses = async () => {
     for (const event of events) {
       const startTime = parseEventDateTime(event.date, event.time);
       const endTime = event.end_time ? parseEventDateTime(event.date, event.end_time) : null;
+      const started = now >= startTime;
+      const over = !!endTime && now >= endTime;
+
       let newStatus = event.status;
-      if (now >= startTime && event.status === 'upcoming') newStatus = 'live';
-      if (endTime && now >= endTime && event.status === 'live') newStatus = 'ended';
+      // Only promote upcoming -> live while we are inside the event window, so a
+      // date edit (e.g. moving an event into the past) never demotes it to ended.
+      if (event.status === 'upcoming' && started && !over) newStatus = 'live';
+      // Only events already marked live can wind down, and only after their end time.
+      if (event.status === 'live' && over) newStatus = 'ended';
+
       if (newStatus !== event.status) {
         await supabase.from('events').update({ status: newStatus }).eq('id', event.id);
       }
@@ -61,10 +85,10 @@ export default function useEventsData() {
     return () => clearInterval(interval);
   }, []);
 
-  const live = useMemo(() => events.filter((e) => e.status === 'live'), [events]);
-  const upcoming = useMemo(() => events.filter((e) => e.status === 'upcoming'), [events]);
-  const past = useMemo(
-    () => events.filter((e) => e.status === 'ended' || e.status === 'completed'),
+  const live = useMemo(() => events.filter((e) => isEventRunning(e, new Date())), [events]);
+  const past = useMemo(() => events.filter((e) => isEventOver(e, new Date())), [events]);
+  const upcoming = useMemo(
+    () => events.filter((e) => !isEventOver(e, new Date()) && !isEventRunning(e, new Date())),
     [events]
   );
 

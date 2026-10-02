@@ -31,6 +31,12 @@ export default function EventsTopNav() {
               {l.label}
             </a>
           ))}
+          <a
+            href="/login-design"
+            className="ml-2 rounded-lg bg-[#f4d03f] px-4 py-2 text-xs font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
+          >
+            Login
+          </a>
         </div>
       </div>
     </nav>

@@ -32,6 +32,7 @@ export default function AdminDashboard() {
         description: '',
         date: '',
         time: '',
+        registration_end_time: '',
         location: '',
         tag: 'Guild',
         custom_category: 'project_showcase',
@@ -242,6 +243,7 @@ export default function AdminDashboard() {
                     description: newEventForm.description,
                     date: newEventForm.date,
                     time: newEventForm.time,
+                    registration_end_time: newEventForm.registration_end_time || null,
                     location: newEventForm.location,
                     tag: newEventForm.tag,
                     custom_category: newEventForm.custom_category,
@@ -258,6 +260,7 @@ export default function AdminDashboard() {
                     description: newEventForm.description,
                     date: newEventForm.date,
                     time: newEventForm.time,
+                    registration_end_time: newEventForm.registration_end_time || null,
                     location: newEventForm.location,
                     tag: newEventForm.tag,
                     custom_category: newEventForm.custom_category,
@@ -270,7 +273,7 @@ export default function AdminDashboard() {
                 setCreateMsg('Successfully summoned new Event into the database!');
             }
 
-            setNewEventForm({ title: '', description: '', date: '', time: '', location: '', tag: 'Guild', custom_category: 'project_showcase', has_slots: true, status: 'upcoming' });
+            setNewEventForm({ title: '', description: '', date: '', time: '', registration_end_time: '', location: '', tag: 'Guild', custom_category: 'project_showcase', has_slots: true, status: 'upcoming' });
             setEditingEventId(null);
             fetchEvents();
         } catch (err: any) {
@@ -287,6 +290,7 @@ export default function AdminDashboard() {
             description: ev.description || '',
             date: ev.date || '',
             time: ev.time || '',
+            registration_end_time: ev.registration_end_time || '',
             location: ev.location || '',
             tag: ev.tag || 'Guild',
             custom_category: ev.custom_category || 'project_showcase',
@@ -678,6 +682,9 @@ export default function AdminDashboard() {
                                                                     <span className={`shrink-0 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ${event.status === 'live' ? 'bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20' : 'bg-slate-500/10 text-slate-400 ring-1 ring-slate-500/20'}`}>{event.status}</span>
                                                                 </div>
                                                                 <p className="text-xs text-slate-500 font-mono mb-4">{event.date} • {event.has_slots ? 'Slots Enabled' : 'Standard Registration'}</p>
+                                                                <p className="text-xs text-slate-500 font-mono mb-4">
+                                                                    Reg. ends: {event.registration_end_time ? new Date(event.registration_end_time).toLocaleString() : 'Not set (open until start)'}
+                                                                </p>
 
                                                                 <div className="flex gap-2">
                                                                     <button onClick={() => handleDeleteEvent(event.id, event.title)} className="flex-1 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 rounded-lg text-red-400 text-xs font-semibold transition-all">
@@ -722,7 +729,7 @@ export default function AdminDashboard() {
                                                         </div>
                                                         {editingEventId && (
                                                             <button
-                                                                onClick={() => { setEditingEventId(null); setNewEventForm({ title: '', description: '', date: '', time: '', location: '', tag: 'Guild', custom_category: 'project_showcase', has_slots: true, status: 'upcoming' }); }}
+                                                                onClick={() => { setEditingEventId(null); setNewEventForm({ title: '', description: '', date: '', time: '', registration_end_time: '', location: '', tag: 'Guild', custom_category: 'project_showcase', has_slots: true, status: 'upcoming' }); }}
                                                                 className="ml-auto text-xs font-medium text-slate-400 hover:text-white px-3 py-1.5 bg-white/[0.04] hover:bg-white/[0.08] rounded-lg transition-colors"
                                                             >
                                                                 Cancel
@@ -750,6 +757,17 @@ export default function AdminDashboard() {
                                                             <div className="space-y-1.5">
                                                                 <label className="text-xs font-medium text-slate-400 uppercase tracking-wide">Start Time</label>
                                                                 <input required type="time" value={newEventForm.time} onChange={e => setNewEventForm({ ...newEventForm, time: e.target.value })} className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-2.5 text-white focus:border-indigo-500/50 focus:bg-white/[0.06] outline-none transition-colors [color-scheme:dark]" />
+                                                            </div>
+
+                                                            <div className="space-y-1.5">
+                                                                <label className="text-xs font-medium text-slate-400 uppercase tracking-wide">Registration Ends</label>
+                                                                <input
+                                                                    type="datetime-local"
+                                                                    value={newEventForm.registration_end_time}
+                                                                    onChange={e => setNewEventForm({ ...newEventForm, registration_end_time: e.target.value })}
+                                                                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-2.5 text-white focus:border-indigo-500/50 focus:bg-white/[0.06] outline-none transition-colors [color-scheme:dark]"
+                                                                />
+                                                                <p className="text-xs text-slate-500">Optional. Leave empty to keep registrations open until the event starts.</p>
                                                             </div>
 
                                                             <div className="space-y-1.5">
