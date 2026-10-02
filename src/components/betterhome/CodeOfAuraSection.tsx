@@ -36,62 +36,61 @@ const PrecisionIcon = () => (
   </svg>
 );
 
-const laws = [
-  {
-    law: "Alliance",
-    title: "Unity Builders",
-    description: "Forging unbreakable bonds and seamless teamwork across all realms.",
-    icon: <AllianceIcon />,
-    perkLevel: "PERK LVL 10",
-    color: "#F59E0B",
-    glow: "rgba(245, 158, 11, 0.25)",
-  },
-  {
-    law: "Wisdom",
-    title: "Knowledge Keepers",
-    description: "Sharing ancient scrolls of knowledge to elevate the entire clan.",
-    icon: <WisdomIcon />,
-    perkLevel: "SPELL FORGE",
-    color: "#00E5FF",
-    glow: "rgba(0, 229, 255, 0.25)",
-  },
-  {
-    law: "Glory",
-    title: "Quality Champions",
-    description: "Striving for legendary status in every artifact we create.",
-    icon: <GloryIcon />,
-    perkLevel: "TITAN LEAGUE",
-    color: "#FDE047",
-    glow: "rgba(253, 224, 71, 0.25)",
-  },
-  {
-    law: "Magic",
-    title: "Creative Sorcery",
-    description: "Weaving spells of code to birth innovation from the void.",
-    icon: <MagicIcon />,
-    perkLevel: "DARK SPELLS",
-    color: "#C084FC",
-    glow: "rgba(192, 132, 252, 0.25)",
-  },
-  {
-    law: "Ascension",
-    title: "Rising Stars",
-    description: "Continuously leveling up our skills to reach god-tier potential.",
-    icon: <AscensionIcon />,
-    perkLevel: "MAX LEVEL",
-    color: "#34D399",
-    glow: "rgba(52, 211, 153, 0.25)",
-  },
-  {
-    law: "Precision",
-    title: "Smart Strikes",
-    description: "Executing quests with lethal efficiency and maximum impact.",
-    icon: <PrecisionIcon />,
-    perkLevel: "EAGLE EYE",
-    color: "#FB7185",
-    glow: "rgba(251, 113, 133, 0.25)",
-  },
-];
+// const laws = [
+//   {
+//     law: "Alliance",
+//     title: "Unity Builders",
+//     description: "Forging unbreakable bonds and seamless teamwork across all realms.",
+//     icon: <AllianceIcon />,
+//     perkLevel: "PERK LVL 10",
+//     color: "#F59E0B",
+//     glow: "rgba(245, 158, 11, 0.25)",
+//   },
+//   {
+//     law: "Wisdom",
+//     title: "Knowledge Keepers",
+//     description: "Sharing ancient scrolls of knowledge to elevate the entire clan.",
+//     icon: <WisdomIcon />,
+//     perkLevel: "SPELL FORGE",
+//     color: "#00E5FF",
+//     glow: "rgba(0, 229, 255, 0.25)",
+//   },
+//   {
+//     law: "Glory",
+//     title: "Quality Champions",
+//     description: "Striving for legendary status in every artifact we create.",
+//     icon: <GloryIcon />,
+//     perkLevel: "TITAN LEAGUE",
+//     color: "#FDE047",
+//     glow: "rgba(253, 224, 71, 0.25)",
+//   },
+//   {
+//     law: "Magic",
+//     title: "Creative Sorcery",
+//     description: "Weaving spells of code to birth innovation from the void.",
+//     icon: <MagicIcon />,
+//     perkLevel: "DARK SPELLS",
+//     color: "#C084FC",
+//     glow: "rgba(192, 132, 252, 0.25)",
+//   },
+//   {
+//     law: "Ascension",
+//     title: "Rising Stars",
+//     description: "Continuously leveling up our skills to reach god-tier potential.",
+//     icon: <AscensionIcon />,
+//     perkLevel: "MAX LEVEL",
+//     color: "#34D399",
+//     glow: "rgba(52, 211, 153, 0.25)",
+//   },
+//   {
+//     law: "Precision",
+//     title: "Smart Strikes",
+//     description: "Executing quests with lethal efficiency and maximum impact.",
+//     icon: <PrecisionIcon />,
+//     perkLevel: "EAGLE EYE",
+//     color: "#FB7185",
+//     glow: "rgba(251, 113, 133, 0.25)",
+//   }
 
 export default function CodeOfAuraSection() {
   return (
@@ -123,7 +122,7 @@ export default function CodeOfAuraSection() {
         </div>
 
         {/* ── 6 Clan Law Tablets Grid ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {laws.map((item, index) => (
             <div
               key={index}
@@ -139,16 +138,16 @@ export default function CodeOfAuraSection() {
               <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#F59E0B]/40 group-hover:border-[#FDE047] transition-colors rounded-br-2xl pointer-events-none" />
 
               {/* Glowing rune back-light on hover */}
-              <div
+              {/* <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                 style={{
                   background: `radial-gradient(circle at 50% 20%, ${item.glow} 0%, transparent 70%)`,
                 }}
-              />
+              /> */}
 
-              <div>
+              {/* <div> */}
                 {/* Top Row: Icon + Perk Badge */}
-                <div className="flex items-center justify-between mb-6">
+                {/* <div className="flex items-center justify-between mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-[#0B0F19] border border-[#F59E0B]/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)]">
                     {item.icon}
                   </div>
@@ -156,31 +155,31 @@ export default function CodeOfAuraSection() {
                   <span className="text-[10px] font-extrabold tracking-widest text-[#FDE047] bg-[#0B0F19]/90 border border-[#F59E0B]/30 px-3 py-1 rounded-full uppercase shadow-[0_0_10px_rgba(245,158,11,0.2)]">
                     {item.perkLevel}
                   </span>
-                </div>
+                </div> */}
 
                 {/* Law Name & Subtitle */}
-                <h3 className="font-[family-name:var(--font-cinzel)] text-2xl font-black text-white group-hover:text-[#FDE047] transition-colors mb-1">
+                {/* <h3 className="font-[family-name:var(--font-cinzel)] text-2xl font-black text-white group-hover:text-[#FDE047] transition-colors mb-1">
                   {item.law}
-                </h3>
+                </h3> */}
                 
-                <h4 className="font-[family-name:var(--font-cinzel)] text-xs font-bold tracking-widest uppercase text-[#F59E0B] mb-4">
+                {/* <h4 className="font-[family-name:var(--font-cinzel)] text-xs font-bold tracking-widest uppercase text-[#F59E0B] mb-4">
                   {item.title}
-                </h4>
+                </h4> */}
 
-                {/* Description */}
+                {/* Description 
                 <p className="text-white/70 text-sm sm:text-base leading-relaxed font-sans font-normal">
                   {item.description}
                 </p>
-              </div>
+              </div> */}
 
-              {/* Bottom decorative bar */}
+              {/* Bottom decorative bar 
               <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-white/40 font-[family-name:var(--font-cinzel)]">
                 <span>CANON LAW #{index + 1}</span>
                 <span className="text-[#FDE047] group-hover:translate-x-1 transition-transform">→</span>
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
 
       </div>
     </section>

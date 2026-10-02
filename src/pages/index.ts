@@ -10,3 +10,4 @@ export { default as Profile } from './Profile';
 export { default as Gallery } from './Gallery';
 export { default as Milestones } from './Milestones';
 export { default as BetterHome } from './BetterHome';
+export { default as KingdomHome } from './KingdomHome';

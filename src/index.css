@@ -480,3 +480,25 @@ footer {
   -webkit-text-fill-color: transparent;
 }
 :root { --font-cinzel: 'Cinzel', serif; --font-cinzel-decorative: 'Cinzel Decorative', cursive; }
+
+/* ── Past events flow (marquee) ── */
+@keyframes events-marquee {
+  from {
+    transform: translateX(calc(-100% + 100% / var(--marquee-copies, 2)));
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.events-marquee-track {
+  animation: events-marquee var(--marquee-duration, 30s) linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .events-marquee-track {
+    animation: none;
+  }
+}

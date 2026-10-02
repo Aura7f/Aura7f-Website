@@ -21,7 +21,7 @@
     "jspdf-autotable": "^5.0.8",
     "lucide-react": "^0.268.0",
     "mdb-react-ui-kit": "^10.0.0",
-    "motion": "^12.29.0",
+    "motion": "^12.43.0",
     "postprocessing": "^6.38.2",
     "react": "^18.3.1",
     "react-dom": "^18.2.0",

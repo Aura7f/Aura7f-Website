@@ -1,0 +1,117 @@
+.stack-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 600px;
+}
+
+.card-rotate {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.card-rotate-disabled {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* ── Clash of Clans themed frame ── */
+.coc-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  padding: 8px;
+  background: linear-gradient(160deg, #6b4a1f 0%, #3d2a12 45%, #2a1c0b 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 220, 150, 0.28),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.55),
+    0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+.coc-card::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 12px;
+  border: 2px solid rgba(244, 208, 63, 0.45);
+  box-shadow: inset 0 0 14px rgba(244, 208, 63, 0.12);
+  pointer-events: none;
+}
+
+.coc-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #1a120b;
+}
+
+.coc-card-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.coc-card-label {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  right: 16px;
+  z-index: 2;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(20, 12, 4, 0.35), rgba(20, 12, 4, 0.92));
+  border: 1px solid rgba(244, 208, 63, 0.35);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.coc-card-label .cat {
+  display: block;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f4d03f;
+}
+
+.coc-card-label .ttl {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

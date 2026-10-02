@@ -11,14 +11,14 @@ function RouteSEO() {
   let description = 'Aura-7F (Aura 7f / Aura) is BashClan 1 of 4 BashClans in Byte Bash Blitz (ByteBashBlitz). Empowering Bashers with tech events, hackathons, open-source projects, and developer collaboration.'
   let keywords = 'aura7f, aura 7f, aura, aura7f bashclan, aura 7f bashclan 1, bashclan 1, bashclan, byte bash blitz, bytebashblitz, bashers, aura7f.in, tech community, developer community, coding community'
 
-  if (path === '/' || path === '/home' || path === '/newhome' || path === '/betterhome') {
+  if (path === '/' || path === '/home' || path === '/newhome' || path === '/home-v3' || path === '/home-design' || path === '/kingdomhome' || path === '/betterhome') {
     title = 'Aura-7F | BashClan 1 of Byte Bash Blitz'
     description = 'Aura-7F (Aura 7f / Aura) is BashClan 1 of the 4 BashClans in Byte Bash Blitz (ByteBashBlitz). Home of the Bashers. Join us for hackathons, open-source projects, and tech workshops.'
   } else if (path === '/about') {
     title = 'About Aura-7F | BashClan 1 Vision & Team'
     description = 'Learn about Aura-7F (Aura 7f), BashClan 1 of 4 BashClans in Byte Bash Blitz (ByteBashBlitz). Discover our mission, clan principles, and leadership.'
     keywords = 'about aura7f, aura 7f about, aura7f bashclan, bashclan 1, byte bash blitz, bytebashblitz, bashers, aura7f.in'
-  } else if (path === '/events' || path === '/newevents') {
+  } else if (path === '/events' || path === '/newevents' || path === '/events-design') {
     title = 'Events, Quizzes & Hackathons | Aura-7F BashClan 1'
     description = 'Explore upcoming tech events, hackathons, live coding challenges, and quizzes hosted by Aura-7F (BashClan 1 of Byte Bash Blitz).'
     keywords = 'aura7f events, aura 7f hackathons, byte bash blitz events, bytebashblitz, bashers events, aura quizzes, bashclan 1'
@@ -54,7 +54,7 @@ import { HexagonsBackground } from './components/ui/hexagons'
 import { HackerBackground } from './components/ui/hacker-background'
 import SplashCursor from './components/SplashCursor'
 import ScrollToTop from './components/ScrollToTop'
-import { Home, About, Members, Events, Login, Admin, AddMember, Projects, Profile, Milestones, BetterHome } from './pages/index'
+import { Home, About, Members, Events, Login, Admin, AddMember, Projects, Profile, Milestones, BetterHome, KingdomHome } from './pages/index'
 import NewHome from './pages/NewHome'
 import BaseUI from './pages/base'
 import NewBase from './pages/NewBase'
@@ -73,6 +73,9 @@ const NewMembers = React.lazy(() => import('./pages/NewMembers'))
 const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'))
 const GuestDashboard = React.lazy(() => import('./pages/GuestDashboard'))
 const Registration = React.lazy(() => import('./pages/Registration'))
+const HomeV3 = React.lazy(() => import('./pages/home-v3'))
+const HomeDesign = React.lazy(() => import('./pages/home-design'))
+const EventsDesign = React.lazy(() => import('./pages/events-design'))
 import { Analytics } from "@vercel/analytics/react"
 import { AuthProvider } from './contexts/AuthContext'
 import { QuizAuthProvider } from './contexts/QuizAuthContext'
@@ -88,7 +91,11 @@ function AppContent() {
     location.pathname.startsWith('/base') ||
     location.pathname.startsWith('/newbase') ||
     location.pathname.startsWith('/newhome') ||
+    location.pathname.startsWith('/home-v3') ||
+    location.pathname.startsWith('/home-design') ||
+    location.pathname.startsWith('/events-design') ||
     location.pathname.startsWith('/betterhome') ||
+    location.pathname.startsWith('/kingdomhome') ||
     location.pathname.startsWith('/newgallery') ||
     location.pathname.startsWith('/newevents') ||
     location.pathname.startsWith('/newprojects') ||
@@ -204,7 +211,7 @@ function AppContent() {
             <div className="fixed inset-0 -z-10 pointer-events-none">
               <HackerBackground color="#776c07" fontSize={16} speed={0.8} />
             </div>
-          ) : location.pathname === '/gallery' || location.pathname === '/newgallery' || location.pathname === '/newevents' || location.pathname === '/newprojects' || location.pathname === '/newmembers' || location.pathname.startsWith('/registration') || location.pathname.startsWith('/admindashboard') || location.pathname.startsWith('/guestdashboard') || location.pathname.startsWith('/newhome') || location.pathname.startsWith('/betterhome') || location.pathname.startsWith('/base') || location.pathname.startsWith('/newbase') ? (
+          ) : location.pathname === '/gallery' || location.pathname === '/newgallery' || location.pathname === '/newevents' || location.pathname === '/newprojects' || location.pathname === '/newmembers' || location.pathname.startsWith('/registration') || location.pathname.startsWith('/admindashboard') || location.pathname.startsWith('/guestdashboard') || location.pathname.startsWith('/newhome') || location.pathname.startsWith('/home-v3') || location.pathname.startsWith('/home-design') || location.pathname.startsWith('/events-design') || location.pathname.startsWith('/betterhome') || location.pathname.startsWith('/kingdomhome') || location.pathname.startsWith('/base') || location.pathname.startsWith('/newbase') ? (
             null
           ) : (
             <div className="fixed inset-0 -z-10 pointer-events-none">
@@ -212,13 +219,29 @@ function AppContent() {
             </div>
           )}
           {!hideNavAndFooter && <Header />}
-          <main className={`${location.pathname === '/gallery' || location.pathname === '/newgallery' || location.pathname === '/newevents' || location.pathname === '/newprojects' || location.pathname === '/newmembers' || location.pathname.startsWith('/registration') || location.pathname.startsWith('/admindashboard') || location.pathname.startsWith('/guestdashboard') || location.pathname.startsWith('/newhome') || location.pathname.startsWith('/betterhome') || location.pathname.startsWith('/base') || location.pathname.startsWith('/newbase') ? 'w-full' : 'container mx-auto px-3 sm:px-6'} ${hideNavAndFooter ? 'pt-0 pb-0' : 'pt-20 pb-1 md:pb-2 lg:pb-2'} min-h-screen overflow-hidden`}>
-            <div className={`${location.pathname === '/gallery' || location.pathname === '/newgallery' || location.pathname === '/newevents' || location.pathname === '/newprojects' || location.pathname === '/newmembers' || location.pathname.startsWith('/registration') || location.pathname.startsWith('/admindashboard') || location.pathname.startsWith('/guestdashboard') ? 'max-w-[95rem]' : (location.pathname.startsWith('/newhome') || location.pathname.startsWith('/betterhome') || location.pathname.startsWith('/base') || location.pathname.startsWith('/newbase')) ? 'w-full max-w-none' : 'max-w-6xl'} mx-auto p-0 relative z-20`}>
+          <main className={`${location.pathname === '/gallery' || location.pathname === '/newgallery' || location.pathname === '/newevents' || location.pathname === '/newprojects' || location.pathname === '/newmembers' || location.pathname.startsWith('/registration') || location.pathname.startsWith('/admindashboard') || location.pathname.startsWith('/guestdashboard') || location.pathname.startsWith('/newhome') || location.pathname.startsWith('/home-v3') || location.pathname.startsWith('/home-design') || location.pathname.startsWith('/events-design') || location.pathname.startsWith('/betterhome') || location.pathname.startsWith('/kingdomhome') || location.pathname.startsWith('/base') || location.pathname.startsWith('/newbase') ? 'w-full' : 'container mx-auto px-3 sm:px-6'} ${hideNavAndFooter ? 'pt-0 pb-0' : 'pt-20 pb-1 md:pb-2 lg:pb-2'} min-h-screen overflow-hidden`}>
+            <div className={`${location.pathname === '/gallery' || location.pathname === '/newgallery' || location.pathname === '/newevents' || location.pathname === '/newprojects' || location.pathname === '/newmembers' || location.pathname.startsWith('/registration') || location.pathname.startsWith('/admindashboard') || location.pathname.startsWith('/guestdashboard') ? 'max-w-[95rem]' : (location.pathname.startsWith('/newhome') || location.pathname.startsWith('/home-v3') || location.pathname.startsWith('/home-design') || location.pathname.startsWith('/events-design') || location.pathname.startsWith('/betterhome') || location.pathname.startsWith('/kingdomhome') || location.pathname.startsWith('/base') || location.pathname.startsWith('/newbase')) ? 'w-full max-w-none' : 'max-w-6xl'} mx-auto p-0 relative z-20`}>
               <Routes>
                 <Route path="/" element={<Navigate to="/home" replace />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/betterhome" element={<BetterHome />} />
+                <Route path="/kingdomhome" element={<KingdomHome />} />
                 <Route path="/newhome" element={<NewHome />} />
+                <Route path="/home-v3" element={
+                  <React.Suspense fallback={<div className="h-screen w-full bg-[#c8b598] flex items-center justify-center text-[#3a271d] font-black uppercase">Loading Frontiers...</div>}>
+                    <HomeV3 />
+                  </React.Suspense>
+                } />
+                <Route path="/home-design" element={
+                  <React.Suspense fallback={<div className="h-screen w-full bg-[#1a120b] flex items-center justify-center text-[#f4d03f] font-black uppercase">Loading Village...</div>}>
+                    <HomeDesign />
+                  </React.Suspense>
+                } />
+                <Route path="/events-design" element={
+                  <React.Suspense fallback={<div className="h-screen w-full bg-[#1a120b] flex items-center justify-center text-[#f4d03f] font-black uppercase">Loading Quest Board...</div>}>
+                    <EventsDesign />
+                  </React.Suspense>
+                } />
                 <Route path="/base" element={<BaseUI />} />
                 <Route path="/newbase" element={<NewBase />} />
                 <Route path="/about" element={<About />} />

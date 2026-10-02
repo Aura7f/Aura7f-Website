@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Shield, BookOpen, Crown, Zap, Target, Sparkles, Star, Calendar, ChevronRight, ChevronLeft, Play, Clock, History } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import AnimateOnView from '../components/AnimateOnView'
-import FantasyNavbar from '../components/FantasyNavbar'
+import FantasyLeftNavbar from '../components/FantasyLeftNavbar'
 
 // Principles data from Home
 const principles = [
@@ -239,12 +239,10 @@ export default function NewHome() {
   };
 
   return (
-    <div className="min-h-screen pb-12 relative overflow-hidden bg-slate-950">
+    <div className="min-h-screen pb-12 relative overflow-hidden bg-slate-950 pl-24 sm:pl-32 md:pl-40">
 
-      {/* Navigation Bar - Fixed Header */}
-      <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-slate-950/80 border-b border-white/5">
-        <FantasyNavbar />
-      </header>
+      {/* Navigation Bar - Left Sidebar */}
+      <FantasyLeftNavbar />
 
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none">
