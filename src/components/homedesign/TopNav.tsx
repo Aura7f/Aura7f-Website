@@ -10,6 +10,7 @@ export default function TopNav() {
     { label: 'Events', href: '/events-design' },
     { label: 'Projects', href: '/projects' },
     { label: 'About', href: '/about' },
+    { label: 'Login', href: '/login-design' },
   ];
 
   return (
@@ -30,7 +31,11 @@ export default function TopNav() {
               <a
                 key={l.label}
                 href={l.href}
-                className="rounded-lg px-3 py-1.5 text-xs font-black uppercase tracking-widest text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+                className={`rounded-lg px-3 py-1.5 text-xs font-black uppercase tracking-widest transition-colors ${
+                  l.label === 'Login'
+                    ? 'bg-[#f4d03f] text-black hover:bg-[#e0be36]'
+                    : 'text-white/75 hover:bg-white/10 hover:text-white'
+                }`}
               >
                 {l.label}
               </a>
@@ -57,7 +62,11 @@ export default function TopNav() {
                 key={l.label}
                 href={l.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block rounded-lg px-4 py-3 text-sm font-black uppercase tracking-widest text-white/75 transition-colors hover:bg-white/10 hover:text-[#f4d03f]"
+                className={`block rounded-lg px-4 py-3 text-sm font-black uppercase tracking-widest transition-colors ${
+                  l.label === 'Login'
+                    ? 'bg-[#f4d03f] text-black hover:bg-[#e0be36]'
+                    : 'text-white/75 hover:bg-white/10 hover:text-[#f4d03f]'
+                }`}
               >
                 {l.label}
               </a>
