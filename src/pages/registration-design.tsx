@@ -58,6 +58,16 @@ export default function RegistrationDesign() {
     project_description: '',
   });
   const [consent, setConsent] = useState({ privacy: false, media: false });
+  const [clans, setClans] = useState<string[]>([
+    'Aura 7f',
+    'Belmonts',
+    'Lumina',
+    'Shadastria Adepi'
+  ]);
+  const [domains, setDomains] = useState<string[]>([
+    'App Dev', 'Web Dev', 'Hardware', 'AI / ML', 'Cybersecurity', 'Game Dev'
+  ]);
+  const [customDomain, setCustomDomain] = useState('');
   const [registered, setRegistered] = useState<{ id: string; name: string }[]>([]);
   const [rosterLoading, setRosterLoading] = useState(false);
   const [bookingState, setBookingState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -80,6 +90,34 @@ export default function RegistrationDesign() {
     };
     fetchEvent();
   }, [eventId]);
+
+  useEffect(() => {
+    const fetchClans = async () => {
+      try {
+        const { data, error } = await supabase.from('clans').select('name').order('name');
+        if (data && !error && data.length > 0) {
+          setClans(data.map((c: any) => c.name));
+        }
+      } catch (err) {
+        console.error('Could not fetch clans', err);
+      }
+    };
+    fetchClans();
+  }, []);
+
+  useEffect(() => {
+    const fetchDomains = async () => {
+      try {
+        const { data, error } = await supabase.from('domain_categories').select('name').order('name');
+        if (data && !error && data.length > 0) {
+          setDomains(data.map((d: any) => d.name));
+        }
+      } catch (err) {
+        console.error('Could not fetch domains', err);
+      }
+    };
+    fetchDomains();
+  }, []);
 
   const fetchSlots = async (id: string, day: number) => {
     setSlotsLoading(true);
@@ -142,6 +180,7 @@ export default function RegistrationDesign() {
           !bookingForm.section.trim() ||
           !bookingForm.project_title.trim() ||
           !bookingForm.project_category.trim() ||
+          (bookingForm.project_category === 'other' && !customDomain.trim()) ||
           !bookingForm.project_description.trim();
         if (missing) {
           setStepError('Fill in every project showcase field to continue.');
@@ -171,9 +210,9 @@ export default function RegistrationDesign() {
       setBookingMsg('Registrations for this quest have closed.');
       return;
     }
-    if (!consent.privacy) {
+    if (!consent.privacy || !consent.media) {
       setBookingState('error');
-      setBookingMsg('Please accept the privacy policy to finish registering.');
+      setBookingMsg('Please accept both the privacy policy and media consent to finish registering.');
       return;
     }
     if (selectedEvent.has_slots && !bookingForm.slotId) return;
@@ -197,7 +236,15 @@ export default function RegistrationDesign() {
         payload.section = bookingForm.section;
         payload.clan = bookingForm.clan;
         payload.project_title = bookingForm.project_title;
-        payload.project_category = bookingForm.project_category;
+        
+        if (bookingForm.project_category === 'other' && customDomain.trim()) {
+          payload.project_category = customDomain.trim();
+          // Try to add the new domain to the domain_categories table silently
+          supabase.from('domain_categories').insert({ name: customDomain.trim() }).then(() => {}).catch(() => {});
+        } else {
+          payload.project_category = bookingForm.project_category;
+        }
+        
         payload.project_description = bookingForm.project_description;
       }
 
@@ -236,7 +283,7 @@ export default function RegistrationDesign() {
           yearSection: bookingForm.year ? `Yr ${bookingForm.year} Sec ${bookingForm.section || ''}` : '-',
           clan: bookingForm.clan || '-',
           projectTitle: bookingForm.project_title || '-',
-          projectCategory: bookingForm.project_category || '-',
+          projectCategory: payload.project_category || '-',
           projectDescription: bookingForm.project_description || '-',
           privacyConsent: consent.privacy ? 'Yes' : 'No',
           mediaConsent: consent.media ? 'Yes' : 'No',
@@ -278,7 +325,7 @@ export default function RegistrationDesign() {
           <h1 className="text-3xl font-black uppercase tracking-[0.15em] text-white">Quest not found</h1>
           <button
             onClick={() => navigate('/events-design')}
-            className="rounded-lg bg-[#f4d03f] px-6 py-3 text-xs font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
+            className="rounded-lg bg-[#f4d03f] px-8 text-xs font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
           >
             Back to events
           </button>
@@ -297,15 +344,16 @@ export default function RegistrationDesign() {
 
       <TopNav />
 
-      <main className="relative z-10 mx-auto w-full max-w-4xl px-4 pb-24 pt-28 sm:px-6">
+      <main className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-24 pt-28 sm:px-6">
         <button
           onClick={() => navigate('/events-design')}
-          className="mb-8 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.25em] text-white/50 transition-colors hover:text-[#f4d03f]"
+          className="mb-8 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.25em] text-white/50 transition-colors hover:text-white"
         >
           <ArrowLeft className="h-4 w-4" /> Back to events
         </button>
 
-        <div className="rounded-3xl bg-black/55 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.55)] ring-1 ring-white/15 backdrop-blur-md sm:p-10">
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
+        <div className="flex-1 w-full rounded-3xl bg-black/55 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.55)] ring-1 ring-white/15 backdrop-blur-md sm:p-10">
           <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#f4d03f]">Join the raid</span>
           <h1 className="mt-2 text-3xl font-black uppercase tracking-wide text-white sm:text-4xl">
             {selectedEvent.title}
@@ -313,48 +361,19 @@ export default function RegistrationDesign() {
 
           <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] font-bold uppercase tracking-widest text-white/50">
             <span className="inline-flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-[#f4d03f]" />
+              <CalendarDays className="h-4 w-4 text-white" />
               {selectedEvent.date} · {formatTime12h(selectedEvent.time)}
             </span>
             <span className="inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-[#f4d03f]" />
+              <MapPin className="h-4 w-4 text-white" />
               {selectedEvent.location}
             </span>
             <span className="inline-flex items-center gap-2">
-              <Timer className="h-4 w-4 text-[#f4d03f]" />
+              <Timer className="h-4 w-4 text-white" />
               {closed
                 ? 'Registrations closed'
                 : `Register by ${registrationDeadline(selectedEvent)?.toLocaleString()}`}
             </span>
-          </div>
-
-          {/* ------- registered raiders ------- */}
-          <div className="mt-8 rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
-            <div className="flex items-center justify-between gap-4">
-              <span className={labelClass}>Raiders registered</span>
-              <span className="rounded-full bg-[#f4d03f]/15 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[#f4d03f]">
-                {registered.length}
-              </span>
-            </div>
-
-            {rosterLoading ? (
-              <p className="mt-4 text-sm font-bold uppercase tracking-widest text-white/40">
-                Loading the roster…
-              </p>
-            ) : registered.length === 0 ? (
-              <p className="mt-4 text-sm text-white/45">No raiders yet. Be the first name on the wall.</p>
-            ) : (
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {registered.map((r) => (
-                  <li
-                    key={r.id}
-                    className="rounded-full bg-black/40 px-3.5 py-1.5 text-[12px] font-bold text-white/75 ring-1 ring-white/15"
-                  >
-                    {r.name}
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
 
           {/* ------- step rail ------- */}
@@ -371,7 +390,7 @@ export default function RegistrationDesign() {
                         ? 'bg-[#f4d03f] text-black'
                         : state === 'done'
                         ? 'bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/15'
-                        : 'bg-black/40 text-white/40 ring-1 ring-white/10 hover:text-white/70'
+                        : 'bg-black/40 text-white/40 ring-1 ring-white/10 hover:text-white/75'
                     }`}
                   >
                     <span
@@ -392,26 +411,26 @@ export default function RegistrationDesign() {
           {closed ? (
             <div className="mt-10 rounded-2xl bg-white/5 p-10 text-center ring-1 ring-white/15">
               <h2 className="text-2xl font-black uppercase tracking-[0.15em] text-white">Registrations closed</h2>
-              <p className="mt-2 text-sm text-white/55">
+              <p className="mt-2 text-sm text-white/40">
                 This quest stopped accepting raiders. Check the events page for upcoming raids.
               </p>
               <button
                 onClick={() => navigate('/events-design')}
-                className="mt-8 rounded-lg bg-[#f4d03f] px-6 py-3 text-xs font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
+                className="mt-8 rounded-lg bg-[#f4d03f] px-8 text-xs font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
               >
                 Back to events
               </button>
             </div>
           ) : bookingState === 'success' ? (
             <div className="mt-10 rounded-2xl bg-[#f4d03f]/10 p-10 text-center ring-1 ring-[#f4d03f]/40">
-              <Swords className="mx-auto h-10 w-10 text-[#f4d03f]" />
+              <Swords className="mx-auto h-10 w-10 text-white" />
               <h2 className="mt-4 text-2xl font-black uppercase tracking-[0.15em] text-white">
                 Registration complete
               </h2>
-              <p className="mt-2 text-sm text-white/60">{bookingMsg}</p>
+              <p className="mt-2 text-sm text-white/50">{bookingMsg}</p>
               <button
                 onClick={() => navigate('/events-design')}
-                className="mt-8 rounded-lg bg-[#f4d03f] px-6 py-3 text-xs font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
+                className="mt-8 rounded-lg bg-[#f4d03f] px-8 text-xs font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
               >
                 Back to events
               </button>
@@ -448,7 +467,7 @@ export default function RegistrationDesign() {
 
                   {isShowcase && (
                     <div className="border-t border-white/10 pt-8">
-                      <div className="mb-6 flex items-center gap-2 text-[#f4d03f]">
+                      <div className="mb-6 flex items-center gap-2 text-white">
                         <Sparkles className="h-4 w-4" />
                         <span className="text-[11px] font-bold uppercase tracking-[0.25em]">Project showcase</span>
                       </div>
@@ -498,13 +517,18 @@ export default function RegistrationDesign() {
                         </div>
                         <div>
                           <label className={labelClass}>Clan</label>
-                          <input
-                            type="text"
-                            placeholder="Optional"
+                          <select
                             value={bookingForm.clan}
                             onChange={(e) => setBookingForm({ ...bookingForm, clan: e.target.value })}
                             className={fieldClass}
-                          />
+                          >
+                            <option value="">Select a clan (Optional)</option>
+                            {clans.map((clanName, idx) => (
+                              <option key={idx} value={clanName}>
+                                {clanName}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <div className="sm:col-span-2">
                           <label className={labelClass}>Project title</label>
@@ -517,15 +541,32 @@ export default function RegistrationDesign() {
                           />
                         </div>
                         <div className="sm:col-span-2">
-                          <label className={labelClass}>Project category</label>
-                          <input
+                          <label className={labelClass}>Project category (Domain)</label>
+                          <select
                             required
-                            type="text"
-                            placeholder="e.g. App Dev, Hardware, AI"
                             value={bookingForm.project_category}
                             onChange={(e) => setBookingForm({ ...bookingForm, project_category: e.target.value })}
                             className={fieldClass}
-                          />
+                          >
+                            <option value="">Select a domain</option>
+                            {domains.map((domainName, idx) => (
+                              <option key={idx} value={domainName}>
+                                {domainName}
+                              </option>
+                            ))}
+                            <option value="other">Other (Add new)</option>
+                          </select>
+                          
+                          {bookingForm.project_category === 'other' && (
+                            <input
+                              required
+                              type="text"
+                              placeholder="Enter new domain..."
+                              value={customDomain}
+                              onChange={(e) => setCustomDomain(e.target.value)}
+                              className={`${fieldClass} mt-3`}
+                            />
+                          )}
                         </div>
                         <div className="sm:col-span-2">
                           <label className={labelClass}>Project description</label>
@@ -561,7 +602,7 @@ export default function RegistrationDesign() {
                               className={`h-10 rounded-full px-5 text-xs font-black uppercase tracking-widest transition-colors ${
                                 bookingDay === d
                                   ? 'bg-[#f4d03f] text-black'
-                                  : 'bg-black/50 text-white/60 ring-1 ring-white/15 hover:text-white'
+                                  : 'bg-[#e0cdb0] text-[#7a573b] border-[3px] border-[#c0a98b] hover:text-[#5b4033]'
                               }`}
                             >
                               Day {d}
@@ -592,10 +633,10 @@ export default function RegistrationDesign() {
                                   onClick={() => setBookingForm({ ...bookingForm, slotId: slot.id })}
                                   className={`flex flex-col items-center justify-center rounded-xl px-3 py-4 text-sm transition-all ${
                                     isFull
-                                      ? 'cursor-not-allowed bg-black/30 text-white/25 ring-1 ring-white/10'
+                                      ? 'cursor-not-allowed bg-black/15 text-white/25 ring-1 ring-white/10'
                                       : isSelected
                                       ? 'bg-[#f4d03f] text-black'
-                                      : 'bg-black/50 text-white/70 ring-1 ring-white/15 hover:ring-[#f4d03f]/50'
+                                      : 'bg-[#fffcf5] text-[#3a271d] border-[3px] border-[#a08460] hover:border-[#5a4231] shadow-sm'
                                   }`}
                                 >
                                   <span className="text-base font-black">{formatTime12h(slot.start_time)}</span>
@@ -612,7 +653,7 @@ export default function RegistrationDesign() {
                       </div>
                     </>
                   ) : (
-                    <p className="rounded-2xl bg-white/5 px-5 py-6 text-sm text-white/55 ring-1 ring-white/10">
+                    <p className="rounded-2xl bg-[#e0cdb0] px-5 py-6 border-[3px] border-[#c0a98b] shadow-inner rounded-2xl text-white/75 text-sm text-white/40 ring-1 ring-white/10">
                       This event has no time slots — you are registered for the whole session. Continue to the
                       consent step.
                     </p>
@@ -624,15 +665,15 @@ export default function RegistrationDesign() {
               {step === 3 && (
                 <div className="space-y-6">
                   <div className="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
-                    <div className="flex items-center gap-2 text-[#f4d03f]">
+                    <div className="flex items-center gap-2 text-white">
                       <ShieldCheck className="h-4 w-4" />
                       <span className="text-[11px] font-bold uppercase tracking-[0.25em]">Permissions</span>
                     </div>
-                    <p className="mt-3 text-[13px] leading-relaxed text-white/60">
+                    <p className="mt-3 text-[13px] leading-relaxed text-white/50">
                       We only store what this event needs. Please read the{' '}
                       <Link
                         to="/privacy-policy"
-                        className="font-bold text-[#f4d03f] underline decoration-[#f4d03f]/40 underline-offset-4 hover:decoration-[#f4d03f]"
+                        className="font-bold text-white underline decoration-[#f4d03f]/40 underline-offset-4 hover:decoration-[#f4d03f]"
                       >
                         privacy policy
                       </Link>{' '}
@@ -650,7 +691,7 @@ export default function RegistrationDesign() {
                       <span className="text-[13px] leading-relaxed text-white/75">
                         I accept the privacy policy and consent to Aura-7F storing my registration details for this
                         event.
-                        <span className="ml-1 text-[11px] font-bold uppercase tracking-widest text-[#f4d03f]">
+                        <span className="ml-1 text-[11px] font-bold uppercase tracking-widest text-white">
                           Required
                         </span>
                       </span>
@@ -658,6 +699,7 @@ export default function RegistrationDesign() {
 
                     <label className="mt-4 flex cursor-pointer items-start gap-3">
                       <input
+                        required
                         type="checkbox"
                         checked={consent.media}
                         onChange={(e) => setConsent({ ...consent, media: e.target.checked })}
@@ -667,13 +709,13 @@ export default function RegistrationDesign() {
                         I consent to being photographed, my photos/screens being posted on Instagram and other
                         socials, my name appearing in participant name lists, and this event being streamed on
                         YouTube.
-                        <span className="ml-1 text-[11px] font-bold uppercase tracking-widest text-white/40">
-                          Optional — skip this and we will not publish you
+                        <span className="ml-1 text-[11px] font-bold uppercase tracking-widest text-white">
+                          Required
                         </span>
                       </span>
                     </label>
 
-                    <p className="mt-5 flex items-start gap-2 text-[12px] leading-relaxed text-white/45">
+                    <p className="mt-5 flex items-start gap-2 text-[12px] leading-relaxed text-white/40">
                       <Camera className="mt-0.5 h-4 w-4 shrink-0 text-white/30" />
                       You can withdraw media consent later by mailing aura7f.bytebashblitz@gmail.com.
                     </p>
@@ -693,7 +735,7 @@ export default function RegistrationDesign() {
                   <button
                     type="button"
                     onClick={() => goToStep(step - 1)}
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-xl px-6 text-xs font-black uppercase tracking-widest text-white/70 ring-1 ring-white/20 transition-colors hover:bg-white/10 hover:text-white"
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-xl px-6 text-xs font-black uppercase tracking-widest text-white/75 ring-1 ring-white/20 transition-colors hover:bg-white/10 hover:text-white"
                   >
                     <ArrowLeft className="h-4 w-4" /> Back
                   </button>
@@ -712,8 +754,8 @@ export default function RegistrationDesign() {
                 ) : (
                   <button
                     type="submit"
-                    disabled={bookingState === 'loading' || !consent.privacy}
-                    className="h-12 rounded-xl bg-[#f4d03f] px-8 text-xs font-black uppercase tracking-[0.2em] text-black transition-colors hover:bg-[#e0be36] disabled:cursor-not-allowed disabled:opacity-40"
+                    disabled={bookingState === 'loading' || !consent.privacy || !consent.media}
+                    className="h-12 rounded-xl bg-[#f4d03f] px-8 text-xs font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36] disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     {bookingState === 'loading' ? 'Securing your spot…' : 'Register now'}
                   </button>
@@ -728,6 +770,37 @@ export default function RegistrationDesign() {
             </form>
           )}
         </div>
+        <div className="w-full lg:w-80 shrink-0 rounded-3xl bg-black/55 p-6 shadow-[0_18px_50px_rgba(0,0,0,0.55)] ring-1 ring-white/15 backdrop-blur-md sm:p-8">
+          {/* ------- registered raiders ------- */}
+          <div className="mt-8 rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
+            <div className="flex items-center justify-between gap-4">
+              <span className={labelClass}>Raiders registered</span>
+              <span className="rounded-full bg-[#f4d03f]/15 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-white">
+                {registered.length}
+              </span>
+            </div>
+
+            {rosterLoading ? (
+              <p className="mt-4 text-sm font-bold uppercase tracking-widest text-white/40">
+                Loading the roster…
+              </p>
+            ) : registered.length === 0 ? (
+              <p className="mt-4 text-sm text-white/40">No raiders yet. Be the first name on the wall.</p>
+            ) : (
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {registered.map((r) => (
+                  <li
+                    key={r.id}
+                    className="rounded-full bg-black/40 px-3.5 py-1.5 text-[12px] font-bold text-white/75 ring-1 ring-white/15"
+                  >
+                    {r.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
       </main>
 
       <Footer />
