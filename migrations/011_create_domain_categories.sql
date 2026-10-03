@@ -7,10 +7,12 @@ CREATE TABLE IF NOT EXISTS domain_categories (
 -- Enable RLS
 ALTER TABLE domain_categories ENABLE ROW LEVEL SECURITY;
 
--- Allow public read access
+-- Allow public read access (re-runnable)
+DROP POLICY IF EXISTS "Allow public read access on domain_categories" ON domain_categories;
 CREATE POLICY "Allow public read access on domain_categories" ON domain_categories FOR SELECT USING (true);
 
--- Allow public insert so users can add new domains
+-- Allow public insert so users can add new domains (re-runnable)
+DROP POLICY IF EXISTS "Allow public insert on domain_categories" ON domain_categories;
 CREATE POLICY "Allow public insert on domain_categories" ON domain_categories FOR INSERT WITH CHECK (true);
 
 -- Insert initial domains
