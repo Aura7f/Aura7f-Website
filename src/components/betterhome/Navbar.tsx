@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { handleDiscordLogin } from "../../lib/utils";
 
 const navLinks = [
   { id: "home", label: "Home", href: "#home" },
@@ -62,10 +63,7 @@ export default function Navbar() {
             })}
             <a
               href="#login"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveTab("login");
-              }}
+              onClick={handleDiscordLogin}
               className="ml-2 inline-flex items-center justify-center rounded-full border-2 border-[#F59E0B] bg-[#F59E0B]/10 px-6 py-1.5 text-xs font-bold tracking-widest text-[#FDE047] uppercase transition-all duration-300 hover:bg-[#F59E0B] hover:text-[#0B0F19] hover:shadow-[0_0_20px_rgba(245,158,11,0.6)] cursor-pointer"
             >
               LOGIN
@@ -125,9 +123,8 @@ export default function Navbar() {
             href="#login"
             className="inline-flex items-center justify-center rounded-full border-2 border-[#F59E0B] bg-[#F59E0B] px-6 py-2.5 text-xs font-bold tracking-widest text-[#0B0F19] uppercase mt-3 shadow-[0_0_15px_rgba(245,158,11,0.5)] cursor-pointer"
             onClick={(e) => {
-              e.preventDefault();
-              setActiveTab("login");
               setMenuOpen(false);
+              handleDiscordLogin(e);
             }}
           >
             LOGIN

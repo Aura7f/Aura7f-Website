@@ -6,6 +6,26 @@ export default function TopNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  const handleDiscordLogin = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
+    const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+    
+    if (!DISCORD_CLIENT_ID || !DISCORD_REDIRECT_URI) {
+      console.error('Discord is not configured yet. Add VITE_DISCORD_CLIENT_ID and VITE_DISCORD_REDIRECT_URI to .env');
+      return;
+    }
+    sessionStorage.setItem('discord_oauth_return_to', `${window.location.pathname}${window.location.search}`);
+
+    const url = new URL('https://discord.com/api/oauth2/authorize');
+    url.searchParams.append('client_id', DISCORD_CLIENT_ID);
+    url.searchParams.append('redirect_uri', DISCORD_REDIRECT_URI);
+    url.searchParams.append('response_type', 'code');
+    url.searchParams.append('scope', 'identify email');
+    url.searchParams.append('prompt', 'consent');
+    window.location.href = url.toString();
+  };
+
   const navLinks = [
     { label: 'Home', href: '/home-design' },
     { label: 'Members', href: '/members' },
@@ -37,7 +57,8 @@ export default function TopNav() {
                   <a
                     key={l.label}
                     href={l.href}
-                    className="rounded-lg px-3 py-1.5 text-xs font-black uppercase tracking-widest transition-colors bg-[#f4d03f] text-black hover:bg-[#e0be36]"
+                    onClick={handleDiscordLogin}
+                    className="rounded-lg px-3 py-1.5 text-xs font-black uppercase tracking-widest transition-colors bg-[#f4d03f] text-black hover:bg-[#e0be36] cursor-pointer"
                   >
                     {l.label}
                   </a>
@@ -83,8 +104,11 @@ export default function TopNav() {
                   <a
                     key={l.label}
                     href={l.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block rounded-lg px-4 py-3 text-sm font-black uppercase tracking-widest transition-colors bg-[#f4d03f] text-black hover:bg-[#e0be36]"
+                    onClick={(e) => {
+                      setIsMobileMenuOpen(false);
+                      handleDiscordLogin(e);
+                    }}
+                    className="block rounded-lg px-4 py-3 text-sm font-black uppercase tracking-widest transition-colors bg-[#f4d03f] text-black hover:bg-[#e0be36] cursor-pointer"
                   >
                     {l.label}
                   </a>

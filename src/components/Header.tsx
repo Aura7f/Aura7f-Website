@@ -6,6 +6,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import ThemeToggle from './ui/ThemeToggle'
 import { Navbar, NavBody, MobileNav } from './ui/resizable-navbar'
+import { handleDiscordLogin } from '../lib/utils'
 
 const navItems = [
   { to: '/home', icon: Home, label: 'Home', scrollId: 'home-title' },
@@ -165,13 +166,13 @@ export default function Header() {
                 </button>
               </>
             ) : (
-              <Link
-                to="/login"
+              <button
+                onClick={handleDiscordLogin}
                 className="flex items-center gap-2 px-6 py-2 bg-amber-600/10 border border-amber-500/40 text-amber-400 rounded-full font-cinzel font-semibold tracking-wider hover:bg-amber-600/20 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)] transition-all duration-300 group"
               >
                 <LogIn size={16} className="group-hover:translate-x-1 transition-transform" />
                 <span className="text-xs">LOGIN</span>
-              </Link>
+              </button>
             )}
           </div>
         </NavBody>
@@ -231,9 +232,9 @@ export default function Header() {
                   </button>
                 </>
               ) : (
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2 px-4 py-3 bg-amber-600/20 border border-amber-500/30 text-amber-400 rounded-lg font-cinzel text-sm font-bold">
+                <button onClick={(e) => { setMobileMenuOpen(false); handleDiscordLogin(e); }} className="flex items-center justify-center w-full gap-2 px-4 py-3 bg-amber-600/20 border border-amber-500/30 text-amber-400 rounded-lg font-cinzel text-sm font-bold">
                   <LogIn size={16} /> LOGIN
-                </Link>
+                </button>
               )}
             </div>
           )}

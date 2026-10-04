@@ -42,3 +42,23 @@ export function isRegistrationClosed(event: {
   const deadline = registrationDeadline(event)
   return deadline ? new Date() > deadline : false
 }
+
+export const handleDiscordLogin = (e?: React.MouseEvent) => {
+  if (e) e.preventDefault();
+  const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID;
+  const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+  
+  if (!DISCORD_CLIENT_ID || !DISCORD_REDIRECT_URI) {
+    console.error('Discord is not configured yet. Add VITE_DISCORD_CLIENT_ID and VITE_DISCORD_REDIRECT_URI to .env');
+    return;
+  }
+  sessionStorage.setItem('discord_oauth_return_to', `${window.location.pathname}${window.location.search}`);
+
+  const url = new URL('https://discord.com/api/oauth2/authorize');
+  url.searchParams.append('client_id', DISCORD_CLIENT_ID);
+  url.searchParams.append('redirect_uri', DISCORD_REDIRECT_URI);
+  url.searchParams.append('response_type', 'code');
+  url.searchParams.append('scope', 'identify email');
+  url.searchParams.append('prompt', 'consent');
+  window.location.href = url.toString();
+};
