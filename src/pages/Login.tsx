@@ -39,7 +39,7 @@ export default function Login() {
     setLoading(true)
     const result = await signIn(email, password)
     if (result.success) {
-      navigate('/admin')
+      navigate('/admindashboard')
     } else {
       setError(result.error || 'The gates remain closed. Verify your credentials.')
     }
