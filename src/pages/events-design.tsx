@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Event } from '../lib/supabase';
-import EventsTopNav from '../components/eventsdesign/EventsTopNav';
+import TopNav from '../components/homedesign/TopNav';
 import FeaturedCarousel from '../components/eventsdesign/FeaturedCarousel';
 import EventsSectionTitle from '../components/eventsdesign/EventsSectionTitle';
 import EventsBoard, { EventDialog } from '../components/eventsdesign/EventsBoard';
@@ -30,9 +30,9 @@ export default function EventsDesign() {
         <div className="absolute inset-0 bg-black/45" />
       </div>
 
-      <EventsTopNav />
-      <FeaturedCarousel events={featured} active={safeIndex} onIndexChange={onIndexChange} />
-      <EventsSectionTitle />
+      <TopNav />
+      {/* <FeaturedCarousel events={featured} active={safeIndex} onIndexChange={onIndexChange} /> */}
+      {/* <EventsSectionTitle /> */}
       <EventsBoard
         live={live}
         upcoming={upcoming}

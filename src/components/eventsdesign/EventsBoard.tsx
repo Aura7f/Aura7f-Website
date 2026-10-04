@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Event } from '../../lib/supabase';
 import { formatTime12h, isRegistrationClosed, registrationDeadline } from '../../lib/utils';
-import { eventCategory } from './useEventsData';
+import { eventCategory, isEventOver } from './useEventsData';
 import PastEventsMarquee from './PastEventsMarquee';
 
 type Tab = 'upcoming' | 'past';
@@ -147,7 +147,7 @@ export default function EventsBoard({
         <div className="absolute inset-0 bg-black/45" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 pb-20 sm:px-6 lg:px-10">
+      <div className="relative mx-auto w-full max-w-7xl px-4 pt-28 pb-20 sm:px-6 lg:px-10">
         {/* tabs */}
         <div className="mb-9 flex flex-col items-center gap-4 pt-12">
           <div className="flex gap-2 rounded-full bg-black/55 p-1 ring-1 ring-white/15 backdrop-blur-md">
@@ -202,7 +202,7 @@ export function EventDialog({
   onClose: () => void;
 }) {
   if (!event) return null;
-  const past = event.status === 'ended' || event.status === 'completed';
+  const past = isEventOver(event, new Date());
   const closed = isRegistrationClosed(event);
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
@@ -213,7 +213,7 @@ export function EventDialog({
         onClick={(e) => e.stopPropagation()}
       >
         <p className="text-[11px] font-bold uppercase tracking-widest text-[#f4d03f]">
-          {past ? 'Event details' : 'Quest accepted?'}
+          Event details
         </p>
         <h3 className="mt-2 text-xl font-bold text-white">{event.title}</h3>
         <p className="mt-3 text-sm leading-relaxed text-white/60">{event.description}</p>
@@ -260,16 +260,8 @@ export function EventDialog({
             onClick={onClose}
             className="h-10 flex-1 rounded-full text-[12px] font-bold uppercase tracking-widest text-[#f4d03f] ring-1 ring-white/20 transition-colors hover:bg-white/10"
           >
-            {past ? 'Close' : 'Retreat'}
+            Close
           </button>
-          {!past && !closed && (
-            <a
-              href={`/registration-design/${event.id}`}
-              className="h-10 flex-1 rounded-full bg-[#f4d03f] text-center text-[12px] font-black uppercase tracking-widest text-black transition-colors hover:bg-[#e0be36]"
-            >
-              Sign up
-            </a>
-          )}
         </div>
       </div>
     </div>

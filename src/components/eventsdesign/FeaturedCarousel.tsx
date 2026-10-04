@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Event } from '../../lib/supabase';
 import { formatTime12h } from '../../lib/utils';
 import { eventCategory } from './useEventsData';
@@ -34,13 +34,31 @@ export default function FeaturedCarousel({
   active: number;
   onIndexChange: (i: number) => void;
 }) {
+  const [size, setSize] = useState(400);
+
+  useEffect(() => {
+    const checkSize = () => {
+      // 400px default for lg, smaller on mobile
+      if (window.innerWidth < 480) {
+        setSize(window.innerWidth - 60); // 30px padding on each side
+      } else if (window.innerWidth < 640) {
+        setSize(320);
+      } else {
+        setSize(400);
+      }
+    };
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
+
   if (events.length === 0) return null;
 
   return (
-    <section className="relative z-10 flex min-h-[60vh] items-center px-4 pb-16 pt-28 sm:px-6 lg:px-10">
-      <div className="mx-auto w-full max-w-7xl flex justify-start">
-        {/* CoC card stack only, aligned left and bigger */}
-        <EventsStack events={events} activeIndex={active} onIndexChange={onIndexChange} size={400} />
+    <section className="relative z-10 flex min-h-[60vh] items-center px-4 pb-16 pt-28 sm:px-6 lg:px-10 overflow-hidden">
+      <div className="mx-auto w-full max-w-7xl flex justify-center sm:justify-start">
+        {/* CoC card stack only, aligned left (center on mobile) and responsive */}
+        <EventsStack events={events} activeIndex={active} onIndexChange={onIndexChange} size={size} />
       </div>
     </section>
   );

@@ -14,7 +14,7 @@ const parseEventDateTime = (dateStr: string, timeStr: string): Date => {
 
 // An event counts as over once its window has closed: after end_time when set,
 // otherwise after its start time. Anything an admin marked live stays live.
-const isEventOver = (e: Event, now: Date): boolean => {
+export const isEventOver = (e: Event, now: Date): boolean => {
   if (e.status === 'ended' || e.status === 'completed') return true;
   if (e.status === 'live') return false;
   const start = parseEventDateTime(e.date, e.time);
