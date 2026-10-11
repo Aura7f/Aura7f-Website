@@ -13,6 +13,8 @@ const AnimateOnView: React.FC<Props> = ({ children, className = '', animation = 
   const ref = useRef<HTMLDivElement | null>(null)
   const [visible, setVisible] = useState(false)
   const [mounted, setMounted] = useState(false)
+  // Mirror of `visible` that callbacks can read without being a dep.
+  const visibleRef = useRef(false)
 
   useEffect(() => {
     setMounted(true)
@@ -21,44 +23,50 @@ const AnimateOnView: React.FC<Props> = ({ children, className = '', animation = 
   useEffect(() => {
     const el = ref.current
     if (!el || !mounted) return
-    
+
+    const reveal = (obs: IntersectionObserver | null) => {
+      if (visibleRef.current) return
+      visibleRef.current = true
+      setVisible(true)
+      if (once && obs) obs.disconnect()
+    }
+
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setVisible(true)
-            if (once && obs) obs.disconnect()
+            reveal(obs)
           } else if (!once) {
+            visibleRef.current = false
             setVisible(false)
           }
         })
       },
-      { 
+      {
         threshold,
         rootMargin: '50px' // Trigger slightly before element enters viewport
       }
     )
     obs.observe(el)
-    
+
     // Force initial check
     const checkVisibility = () => {
       const rect = el.getBoundingClientRect()
       const isInView = rect.top < window.innerHeight && rect.bottom > 0
-      if (isInView && !visible) {
-        setVisible(true)
-        if (once && obs) obs.disconnect()
+      if (isInView) {
+        reveal(obs)
       }
     }
-    
+
     // Check on mount and scroll
     checkVisibility()
     window.addEventListener('scroll', checkVisibility, { passive: true })
-    
+
     return () => {
       obs.disconnect()
       window.removeEventListener('scroll', checkVisibility)
     }
-  }, [threshold, once, mounted, visible])
+  }, [threshold, once, mounted])
 
   // When an element becomes visible, ensure any inner .aura-card elements
   // animate in as well (they have their own .aura-card styles that start hidden).
