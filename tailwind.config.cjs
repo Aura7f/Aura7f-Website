@@ -89,25 +89,6 @@ module.exports = {
 					'5': 'hsl(var(--chart-5))'
 				}
 			},
-			keyframes: {
-				pulse: {
-					'0%': {
-						opacity: '0.2',
-						transform: 'scale(0.9)'
-					},
-					'50%': {
-						opacity: '1',
-						transform: 'scale(1.1)'
-					},
-					'100%': {
-						opacity: '0.2',
-						transform: 'scale(0.9)'
-					}
-				}
-			},
-			animation: {
-				pulse: 'pulse 3s ease-in-out infinite'
-			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',

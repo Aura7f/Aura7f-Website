@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useMotionValue, useTransform } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Stack.css';
 
 function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }) {
@@ -79,8 +79,16 @@ export default function Stack({
   });
 
   useEffect(() => {
+    // Only rebuild when the incoming list actually changed; returning the
+    // previous state bails out of a re-render, so parent re-renders that
+    // recreate the `cards` array cannot reset the stack or loop.
     if (cards.length) {
-      setStack(cards.map((content, index) => ({ id: index + 1, content })));
+      setStack(prev => {
+        if (prev.length === cards.length && prev.every((c, i) => c.content === cards[i])) {
+          return prev;
+        }
+        return cards.map((content, index) => ({ id: index + 1, content }));
+      });
     }
   }, [cards]);
 
@@ -94,16 +102,22 @@ export default function Stack({
     });
   };
 
-  useEffect(() => {
-    if (autoplay && stack.length > 1 && !isPaused) {
-      const interval = setInterval(() => {
-        const topCardId = stack[stack.length - 1].id;
-        sendToBack(topCardId);
-      }, autoplayDelay);
+  // Latest stack for the autoplay timer, so the interval is created once
+  // instead of being torn down and recreated on every stack change.
+  const stackRef = useRef(stack);
+  stackRef.current = stack;
 
-      return () => clearInterval(interval);
-    }
-  }, [autoplay, autoplayDelay, stack, isPaused]);
+  useEffect(() => {
+    if (!autoplay || isPaused) return;
+    const interval = setInterval(() => {
+      const current = stackRef.current;
+      if (current.length > 1) {
+        sendToBack(current[current.length - 1].id);
+      }
+    }, autoplayDelay);
+
+    return () => clearInterval(interval);
+  }, [autoplay, autoplayDelay, isPaused]);
 
   useEffect(() => {
     if (onTopChange && stack.length) {
