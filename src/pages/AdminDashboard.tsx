@@ -571,8 +571,16 @@ export default function AdminDashboard() {
                                                                     </td>
                                                                     <td className="px-4 py-3 font-mono text-xs text-slate-500">{usr.discord_user_id || 'N/A'}</td>
                                                                     <td className="px-4 py-3">
-                                                                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wide ${usr.role === 'captain bash' || usr.role === 'admin' ? 'bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/20' : 'bg-slate-500/10 text-slate-300 ring-1 ring-slate-500/20'}`}>
-                                                                            {usr.role || 'Guest'}
+                                                                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase ${
+                                                                          usr.role?.toLowerCase() === 'legacy basher'
+                                                                            ? 'bg-purple-500/20 text-purple-300 ring-1 ring-purple-500/50'
+                                                                            : ['admin', 'captain bash'].includes(
+                                                                               usr.role?.toLowerCase() || ''
+                                                                              )
+                                                                            ? 'bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/20'
+                                                                            : 'bg-white/[0.04] text-slate-300'
+                                                                        }`}>
+                                                                           {usr.role || 'Guest'}
                                                                         </span>
                                                                     </td>
                                                                 </tr>
@@ -636,8 +644,14 @@ export default function AdminDashboard() {
                                                                         </td>
                                                                         <td className="px-4 py-3 font-mono text-xs text-slate-500">{m.discord_user_id || 'N/A'}</td>
                                                                         <td className="px-4 py-3">
-                                                                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wide ${m.role === 'captain bash' || m.role === 'admin' ? 'bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/20' : 'bg-slate-500/10 text-slate-300 ring-1 ring-slate-500/20'}`}>
-                                                                                {m.role || 'Guest'}
+                                                                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wide ${
+                                                                              m.role?.toLowerCase() === 'legacy basher'
+                                                                                ? 'bg-purple-500/20 text-purple-300 ring-1 ring-purple-500/50'
+                                                                                : ['admin', 'captain bash'].includes(m.role?.toLowerCase() || '')
+                                                                                ? 'bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/20'
+                                                                                : 'bg-white/[0.04] text-slate-300'
+                                                                            }`}>
+                                                                              {m.role || 'Guest'}
                                                                             </span>
                                                                         </td>
                                                                         <td className="px-4 py-3">
@@ -1199,7 +1213,7 @@ export default function AdminDashboard() {
                             <div className="space-y-1.5">
                                 <label className="text-xs font-medium text-slate-400 uppercase tracking-wide">Role</label>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                    {['admin', 'captain bash', 'moderator', 'member', 'Guest'].map(r => {
+                                    {['admin', 'captain bash', 'moderator', 'member', 'Guest','Legacy Basher'].map((r) => {
                                         const selected = memberForm.role === r;
                                         return (
                                             <button
@@ -1207,10 +1221,14 @@ export default function AdminDashboard() {
                                                 key={r}
                                                 onClick={() => setMemberForm({ ...memberForm, role: r })}
                                                 className={`px-3 py-2.5 rounded-lg text-sm font-semibold capitalize transition-all border ${
-                                                    selected
-                                                        ? 'bg-indigo-500/15 text-indigo-300 border-indigo-500/40 ring-1 ring-indigo-500/30'
-                                                        : 'bg-white/[0.04] text-slate-400 border-white/[0.08] hover:text-slate-200 hover:bg-white/[0.07]'
-                                                }`}
+                                                  r === 'legacy basher'
+                                                    ? selected
+                                                      ? 'bg-purple-500/20 text-purple-300 border-purple-500/50 ring-1 ring-purple-500/30'
+                                                      : 'bg-purple-500/10 text-purple-300 border-purple-500/30 hover:bg-purple-500/20'
+                                                    : selected
+                                                      ? 'bg-indigo-500/15 text-indigo-300 border-indigo-500/40 ring-1 ring-indigo-500/30'
+                                                      : 'bg-white/[0.04] text-slate-400 border-white/[0.08] hover:text-slate-200 hover:bg-white/[0.06]'
+                                                  }`}
                                             >
                                                 {r}
                                             </button>

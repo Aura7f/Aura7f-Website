@@ -34,17 +34,13 @@ export default function LoginDesign() {
     setDiscordBusy(true);
     setError('');
     try {
-      const response = await fetch('https://discord.com/api/oauth2/token', {
+      const response = await fetch('/api/discord/token', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          client_id: DISCORD_CLIENT_ID || '',
-          client_secret: import.meta.env.VITE_DISCORD_CLIENT_SECRET || '',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           code: authCode,
-          grant_type: 'authorization_code',
           redirect_uri: DISCORD_REDIRECT_URI || '',
-          scope: 'identify email',
-        }).toString(),
+        }),
       });
       if (!response.ok) throw new Error('Discord rejected the request. Try again.');
       const { access_token } = await response.json();
