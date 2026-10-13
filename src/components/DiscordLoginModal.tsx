@@ -74,20 +74,16 @@ export default function DiscordLoginModal({
     setError('')
 
     try {
-      // Exchange code for Discord user info
-      const response = await fetch('https://discord.com/api/oauth2/token', {
+      // Exchange code via same-origin proxy so the client secret stays server-side.
+      const response = await fetch('/api/discord/token', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: new URLSearchParams({
-          client_id: DISCORD_CLIENT_ID!,
-          client_secret: import.meta.env.VITE_DISCORD_CLIENT_SECRET || '',
+        body: JSON.stringify({
           code: code,
-          grant_type: 'authorization_code',
-          redirect_uri: DISCORD_REDIRECT_URI!,
-          scope: 'identify email',
-        }).toString(),
+          redirect_uri: DISCORD_REDIRECT_URI,
+        }),
       })
 
       if (!response.ok) {

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
 import { Sparkles, KeyRound } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
-// Discord OAuth Configuration
+// Discord OAuth Configuration (redirect URI unchanged: http://localhost:3000/login)
 const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID
 const DISCORD_REDIRECT_URI = import.meta.env.VITE_DISCORD_REDIRECT_URI
 const DISCORD_RETURN_PATH_KEY = 'discord_oauth_return_to'
@@ -20,18 +20,90 @@ export default function Login() {
   const { signIn } = useAuth()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const [handledDiscordCode, setHandledDiscordCode] = useState<string | null>(null)
+  const handledDiscordCodeRef = useRef<string | null>(null)
 
-  // Handle Discord callback
+  // Canonical Discord callback for http://localhost:3000/login.
+  // Exchanges code via same-origin proxy (secret stays server-side),
+  // creates the same session keys, and preserves captain bash role routing.
   useEffect(() => {
-    const code = searchParams.get('code')
-    if (code && !handledDiscordCode) {
-      setHandledDiscordCode(code)
-      const returnTo = sessionStorage.getItem(DISCORD_RETURN_PATH_KEY)
-      const targetPath = returnTo && returnTo !== '/login' ? returnTo : '/newbase'
-      navigate(`${targetPath}?code=${code}`, { replace: true })
+    const discordError = searchParams.get('error')
+    if (discordError) {
+      setError('Discord login was cancelled or denied.')
+      setDiscordLoading(false)
+      navigate('/login', { replace: true })
+      return
     }
-  }, [searchParams, handledDiscordCode, navigate])
+    const code = searchParams.get('code')
+    if (code && handledDiscordCodeRef.current !== code) {
+      handledDiscordCodeRef.current = code
+      handleDiscordCallback(code)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams])
+
+  const handleDiscordCallback = async (code: string) => {
+    setDiscordLoading(true)
+    setError('')
+    try {
+      const tokenResponse = await fetch('/api/discord/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, redirect_uri: DISCORD_REDIRECT_URI }),
+      })
+      if (!tokenResponse.ok) {
+        throw new Error('Failed to authenticate with Discord')
+      }
+      const tokenData = await tokenResponse.json()
+      const accessToken = tokenData.access_token
+      if (!accessToken) {
+        throw new Error('Failed to authenticate with Discord')
+      }
+
+      const userResponse = await fetch('https://discord.com/api/users/@me', {
+        headers: { authorization: `Bearer ${accessToken}` },
+      })
+      if (!userResponse.ok) {
+        throw new Error('Failed to get Discord user info')
+      }
+      const discordUser = await userResponse.json()
+
+      const { data: dbUser, error: dbError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('discord_user_id', discordUser.id)
+        .single()
+
+      if (dbError || !dbUser) {
+        throw new Error('Access Denied: Your Discord account is not registered in the Aura-7F guild database.')
+      }
+
+      const discordUserData = {
+        id: discordUser.id,
+        username: discordUser.username,
+        email: discordUser.email,
+        avatar: discordUser.avatar,
+        discriminator: discordUser.discriminator,
+        loginTime: new Date().toISOString(),
+      }
+      sessionStorage.setItem('discordUser', JSON.stringify(discordUserData))
+      localStorage.setItem('discordAccessToken', accessToken)
+      sessionStorage.removeItem(DISCORD_RETURN_PATH_KEY)
+
+      if (dbUser.role && dbUser.role.toLowerCase() === 'captain bash') {
+        navigate('/admindashboard', { replace: true })
+      } else {
+        navigate('/guestdashboard', { replace: true })
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Discord authentication failed'
+      setError(errorMessage)
+      console.error('Discord auth error:', err)
+      // Strip single-use code so a refresh does not retry the same code.
+      navigate('/login', { replace: true })
+    } finally {
+      setDiscordLoading(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
