@@ -6,10 +6,12 @@ import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import ThemeToggle from './ui/ThemeToggle'
 import { Navbar, NavBody, MobileNav } from './ui/resizable-navbar'
+import { HackerBackground } from './ui/hacker-background'
 import { handleDiscordLogin } from '../lib/utils'
 import { supabase } from '../lib/supabase'
 import MemberCardMDB from './MemberCardMDB'
 import { Footer } from './index'
+import NewMembers from '../pages/NewMembers'
 
 const navItems = [
   { to: '/home', icon: Home, label: 'Home', scrollId: 'home-title' },
@@ -32,11 +34,13 @@ export default function Header() {
   const [hideHeader, setHideHeader] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [membersOpen, setMembersOpen] = useState(false)
+  const [clanOpen, setClanOpen] = useState(false)
   const [adminMembers, setAdminMembers] = useState<any[]>([])
   const [membersLoading, setMembersLoading] = useState(false)
   const [membersError, setMembersError] = useState<string | null>(null)
   const membersSectionRef = useRef<HTMLElement | null>(null)
   const lastScrollY = useRef(0)
+  const isMembersPage = location.pathname === '/members'
 
   const handleNavClick = (e: React.MouseEvent, to: string, scrollId: string) => {
     e.preventDefault()
@@ -70,6 +74,7 @@ export default function Header() {
   const toggleMembersSection = async (e?: React.MouseEvent) => {
     e?.preventDefault()
     setMobileMenuOpen(false)
+    setClanOpen(false)
     if (membersOpen) {
       setMembersOpen(false)
       return
@@ -120,6 +125,9 @@ export default function Header() {
 
   useEffect(() => {
     setMembersOpen(false)
+    if (location.pathname !== '/members') {
+      setClanOpen(false)
+    }
   }, [location.pathname])
 
   useEffect(() => {
@@ -181,15 +189,15 @@ export default function Header() {
                 <React.Fragment key={to}>
                   <NavLink
                     to={to}
-                    onClick={(e) => { setMembersOpen(false); handleNavClick(e, to, scrollId); }}
+                    onClick={(e) => { setMembersOpen(false); if (label === 'Clan') { setClanOpen(true); } else { setClanOpen(false); } handleNavClick(e, to, scrollId); }}
                     className={({ isActive }) => `flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 text-sm font-cinzel font-medium tracking-wide relative overflow-hidden group whitespace-nowrap
-                    ${isActive && !membersOpen
+                    ${((label === 'Clan' && clanOpen && isMembersPage) || (isActive && !membersOpen && !clanOpen && !isMembersPage))
                         ? 'text-amber-400 bg-amber-900/20 shadow-[0_0_15px_rgba(251,191,36,0.1)] border border-amber-500/20'
                         : 'text-slate-400 hover:text-amber-200 hover:bg-white/5'
                       }`}>
-                    <Icon size={16} className={`transition-transform duration-300 group-hover:rotate-12 ${location.pathname === to && !membersOpen ? 'text-amber-400' : 'text-slate-500 group-hover:text-amber-200'}`} />
+                    <Icon size={16} className={`transition-transform duration-300 group-hover:rotate-12 ${((label === 'Clan' && clanOpen && isMembersPage) || (location.pathname === to && !membersOpen && !clanOpen && !isMembersPage)) ? 'text-amber-400' : 'text-slate-500 group-hover:text-amber-200'}`} />
                     <span>{label}</span>
-                    {location.pathname === to && !membersOpen && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-70"></div>}
+                    {((label === 'Clan' && clanOpen && isMembersPage) || (location.pathname === to && !membersOpen && !clanOpen && !isMembersPage)) && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-70"></div>}
                   </NavLink>
                   {label === 'Clan' && (
                     <button
@@ -197,14 +205,14 @@ export default function Header() {
                       onClick={toggleMembersSection}
                       aria-label="Members"
                       className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 text-sm font-cinzel font-medium tracking-wide relative overflow-hidden group whitespace-nowrap cursor-pointer
-                      ${membersOpen
+                      ${membersOpen || (isMembersPage && !clanOpen)
                         ? 'text-amber-400 bg-amber-900/20 shadow-[0_0_15px_rgba(251,191,36,0.1)] border border-amber-500/20'
                         : 'text-slate-400 hover:text-amber-200 hover:bg-white/5'
                       }`}
                     >
-                      <Shield size={16} className={`transition-transform duration-300 group-hover:rotate-12 ${membersOpen ? 'text-amber-400' : 'text-slate-500 group-hover:text-amber-200'}`} />
+                      <Shield size={16} className={`transition-transform duration-300 group-hover:rotate-12 ${membersOpen || (isMembersPage && !clanOpen) ? 'text-amber-400' : 'text-slate-500 group-hover:text-amber-200'}`} />
                       <span>Members</span>
-                      {membersOpen && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-70"></div>}
+                      {(membersOpen || (isMembersPage && !clanOpen)) && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-70"></div>}
                     </button>
                   )}
                 </React.Fragment>
@@ -278,11 +286,12 @@ export default function Header() {
                     to={to}
                     onClick={(e) => {
                       setMembersOpen(false)
+                      if (label === 'Clan') { setClanOpen(true); } else { setClanOpen(false); }
                       handleNavClick(e, to, scrollId)
                       setMobileMenuOpen(false)
                     }}
                     className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-                        ${isActive && !membersOpen
+                        ${((label === 'Clan' && clanOpen && isMembersPage) || (isActive && !membersOpen && !clanOpen && !isMembersPage))
                         ? 'bg-amber-500/10 text-amber-400'
                         : 'text-slate-400 hover:bg-white/5 hover:text-amber-200'
                       }`}
@@ -296,7 +305,7 @@ export default function Header() {
                       onClick={toggleMembersSection}
                       aria-label="Members"
                       className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all w-full text-left
-                        ${membersOpen
+                        ${membersOpen || (isMembersPage && !clanOpen)
                         ? 'bg-amber-500/10 text-amber-400'
                         : 'text-slate-400 hover:bg-white/5 hover:text-amber-200'
                       }`}
@@ -340,6 +349,9 @@ export default function Header() {
             id="members-section"
             className="fixed inset-0 z-40 overflow-y-auto bg-[#05020a] pt-24 pb-12"
           >
+            <div className="fixed inset-0 -z-10 pointer-events-none" aria-hidden="true">
+              <HackerBackground color="#776c07" fontSize={16} speed={0.8} />
+            </div>
             <div className="text-center px-4 pt-4 pb-12 relative z-10">
               <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full border border-amber-500/20 bg-black/30 backdrop-blur text-amber-400 text-xs font-cinzel font-bold tracking-widest uppercase">
               </div>
@@ -442,6 +454,17 @@ export default function Header() {
           </section>
         )
       })()}
+      {clanOpen && !membersOpen && (
+        <section
+          id="clan-section"
+          className="fixed inset-0 z-40 overflow-y-auto bg-[#05020a] pt-24 pb-12"
+        >
+          <div className="fixed inset-0 -z-10 pointer-events-none" aria-hidden="true">
+            <HackerBackground color="#776c07" fontSize={16} speed={0.8} />
+          </div>
+          <NewMembers hideNavbar />
+        </section>
+      )}
     </>
   )
 }

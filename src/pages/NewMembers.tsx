@@ -62,7 +62,7 @@ const fallbackMembers: Person[] = [
     { name: 'Beule Sujarsa', role: 'Sentinel', specialization: 'Quality Assurance', bio: 'Watching for bugs in the void.', skills: ['Python', 'C#', 'API Testing'], github: 'https://github.com/Beule-Sujarsa' }
 ];
 
-export default function NewMembers() {
+export default function NewMembers({ hideNavbar = false }: { hideNavbar?: boolean } = {}) {
     const navigate = useNavigate();
     const [members, setMembers] = useState<Person[]>([]);
     const [avatarsMap, setAvatarsMap] = useState<Record<string, string>>({});
@@ -211,8 +211,9 @@ export default function NewMembers() {
     );
 
     return (
-        <div className="relative min-h-screen w-full bg-[#0d1117] font-sans overflow-x-hidden selection:bg-amber-400 selection:text-black pb-24">
+        <div className={`relative min-h-screen w-full ${hideNavbar ? 'bg-transparent' : 'bg-[#0d1117]'} font-sans overflow-x-hidden selection:bg-amber-400 selection:text-black pb-24`}>
             {/* Custom Background Image (Dark Edition) */}
+            {!hideNavbar && (
             <div
                 className="fixed inset-0 pointer-events-none z-0"
                 style={{
@@ -222,6 +223,7 @@ export default function NewMembers() {
                     backgroundRepeat: 'no-repeat'
                 }}
             ></div>
+            )}
 
             {/* Background Ambience */}
             <div className="fixed inset-0 pointer-events-none z-0">
@@ -229,9 +231,9 @@ export default function NewMembers() {
                 <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-amber-900/10 rounded-full blur-[120px]"></div>
             </div>
 
-            <FantasyNavbar />
+            {!hideNavbar && <FantasyNavbar />}
 
-            <div className="relative z-10 w-full max-w-7xl mx-auto pt-44 px-4 md:px-8">
+            <div className={`relative z-10 w-full max-w-7xl mx-auto ${hideNavbar ? 'pt-8' : 'pt-44'} px-4 md:px-8`}>
 
                 {/* Board / Title */}
                 {/* <div className="flex flex-col items-center justify-center mb-16 space-y-4">
