@@ -9,14 +9,15 @@ export default function MembersDesign() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#1a120b] font-sans">
-      {/* ------- home-design theme backdrop (same as Home Design page) ------- */}
+      {/* ------- clan backdrop: same scenic fantasy-village background,
+          sizing and overlay treatment as the Events Design page ------- */}
       <div className="absolute inset-0 h-screen">
         <img
-          src="/bg-meta.png"
-          alt="Aura-7F village"
-          className="h-full w-full object-cover object-center"
+          src="/event-bg.png"
+          alt="Aura-7F clan village"
+          className="h-full w-full object-cover object-top"
         />
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-black/45" />
       </div>
 
       <TopNav />
