@@ -31,7 +31,6 @@ export default function TopNav() {
     { label: 'Members', href: '/members-design' },
     { label: 'Events', href: '/events-design' },
     { label: 'Projects', href: '/projects' },
-    { label: 'Data', href: '/data' },
     { label: 'About', href: '/about' },
     { label: 'Login', href: '/login-design' },
   ];
@@ -52,7 +51,7 @@ export default function TopNav() {
           <div className="hidden md:flex items-center gap-1 sm:gap-2">
             {navLinks.map((l) => {
               const isActive = location.pathname.startsWith(l.href);
-              
+
               if (l.label === 'Login') {
                 return (
                   <a
@@ -99,7 +98,7 @@ export default function TopNav() {
           <div className="flex flex-col px-4 py-4 space-y-2">
             {navLinks.map((l) => {
               const isActive = location.pathname.startsWith(l.href);
-              
+
               if (l.label === 'Login') {
                 return (
                   <a

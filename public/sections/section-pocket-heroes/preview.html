@@ -510,8 +510,15 @@
         gap: 28px;
       }
       .pq-world-gallery--bashers {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(10, minmax(0, 1fr));
       }
+      .pq-world-gallery--bashers > .pq-world-hero { grid-column: span 2; }
+      .pq-world-gallery--bashers > :nth-child(6) { grid-column: 2 / span 2; }
+      .pq-world-gallery--bashers > :nth-child(7) { grid-column: 4 / span 2; }
+      .pq-world-gallery--bashers > :nth-child(8) { grid-column: 6 / span 2; }
+      .pq-world-gallery--bashers > :nth-child(9) { grid-column: 8 / span 2; }
+      .pq-world-gallery--bashers > :nth-child(10) { grid-column: 4 / span 2; grid-row: 3; }
+      .pq-world-gallery--bashers > :nth-child(11) { grid-column: 6 / span 2; grid-row: 3; }
       .pq-world-hero {
         border: 0;
         background: none;
@@ -1675,6 +1682,16 @@
         .pq-world-gallery--legacy .pq-world-role {
           font-size: 22px;
         }
+        .pq-world-gallery--bashers > .pq-world-hero,
+        .pq-world-gallery--bashers > :nth-child(6),
+        .pq-world-gallery--bashers > :nth-child(7),
+        .pq-world-gallery--bashers > :nth-child(8),
+        .pq-world-gallery--bashers > :nth-child(9),
+        .pq-world-gallery--bashers > :nth-child(10),
+        .pq-world-gallery--bashers > :nth-child(11) {
+          grid-column: auto;
+          grid-row: auto;
+        }
         .pq-world-hero {
           flex: 0 0 min(60vw, 260px);
           width: min(60vw, 260px);
@@ -2018,7 +2035,7 @@
       }
 
       /* Character detail modal */
-      .pq-char-modal { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(36,32,31,.45); backdrop-filter: blur(6px); }
+      .pq-char-modal { position: absolute; top: 0; left: 0; right: 0; height: 100vh; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(36,32,31,.45); backdrop-filter: blur(6px); }
       .pq-char-modal.is-open { display: flex; }
       .pq-char-modal__card { position: relative; width: min(92vw, 420px); background: linear-gradient(180deg,#f7f3ed 0%,#efe6d8 100%); border: 1px solid #d8c9b5; border-radius: 24px; box-shadow: 0 24px 60px rgba(36,32,31,.25); padding: 28px 24px 24px; text-align: center; font-family: Switzer, Arial, sans-serif; color: #24201f; }
       .pq-char-modal__close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border: 1px solid #d8c9b5; border-radius: 50%; background: #fff; color: #5a475e; font-size: 22px; line-height: 1; cursor: pointer; }
@@ -2064,7 +2081,7 @@
           </div>
 
           <!-- <div class="pq-world-intro">
-            <span class="pq-world-kicker">FOURTEEN HEROES. ALL PERSONALITY.</span>
+            <span class="pq-world-kicker">FIFTEEN HEROES. ALL PERSONALITY.</span>
             <p>
               A knight with a brave heart. A mage with a little magic. Meet the
               tiny legends who make every match a little more magical.
@@ -2161,335 +2178,302 @@
               aria-label="Bashers"
               class="pq-world-gallery pq-world-gallery--bashers"
             >
-            <!-- 03: The Mage -->
             <button
               type="button"
-              aria-label="Choose the mage — the mage"
+              aria-label="Choose anitus"
               aria-pressed="false"
               class="pq-world-hero"
+              data-github="AnitusA"
+              data-portfolio="https://anitus-portfolio.vercel.app"
+              data-status="Live"
+              style="
+                --hero-color: #a9cbb7;
+                --hero-ink: #254c47;
+                --hero-angle: -5deg;
+                --hero-delay: -0.0s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/1468c2f93d7ff898521d0994e1571b731d945f9e25e949f1df2571c48b388b44.webp" />
+                </svg>
+                <span class="pq-world-pick">CHOOSE HERO</span>
+              </div>
+              <span class="pq-world-role">Anitus</span>
+              <span class="pq-world-species">@AnitusA · Live</span>
+            </button>
+            <button
+              type="button"
+              aria-label="Choose lethin"
+              aria-pressed="false"
+              class="pq-world-hero"
+              data-github="Lethinkj"
+              data-portfolio="https://lethin.work.gd"
+              data-status="Live"
               style="
                 --hero-color: #c7b2df;
                 --hero-ink: #50436b;
-                --hero-angle: -5deg;
-                --hero-delay: -0.6s;
+                --hero-angle: -3deg;
+                --hero-delay: -1.2s;
               "
             >
               <div class="pq-world-portrait">
                 <span aria-hidden="true" class="pq-world-spark">✦</span>
                 <div aria-hidden="true" class="pq-world-halo"></div>
                 <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/2e3844c11fe91b0e2aa071f60a7f9684221d0d6a3168086673bb7a48de3f3293.webp"
-                  />
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/2e3844c11fe91b0e2aa071f60a7f9684221d0d6a3168086673bb7a48de3f3293.webp" />
                 </svg>
-               
+                <span class="pq-world-pick">CHOOSE HERO</span>
               </div>
-              <span class="pq-world-role">The Mage</span>
-              <span class="pq-world-species">BASHER · 01</span>
+              <span class="pq-world-role">Lethin</span>
+              <span class="pq-world-species">@Lethinkj · Live</span>
             </button>
-            <!-- 04: The Ranger -->
             <button
               type="button"
-              aria-label="Choose the ranger — the ranger"
+              aria-label="Choose shailu mirsha"
               aria-pressed="false"
               class="pq-world-hero"
+              data-github="Shailu-Mirsha"
+              data-portfolio="https://shailu-galaxy-port.vercel.app/"
+              data-status="Live"
               style="
                 --hero-color: #e3ac8e;
                 --hero-ink: #724433;
-                --hero-angle: -3deg;
-                --hero-delay: -1.8s;
+                --hero-angle: -1deg;
+                --hero-delay: -2.4s;
               "
             >
               <div class="pq-world-portrait">
                 <span aria-hidden="true" class="pq-world-spark">✦</span>
                 <div aria-hidden="true" class="pq-world-halo"></div>
                 <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/a3af9ccddc518d19d901c1b987aa5680591b4a5f2d47f761ae1ed0d135ce5a9c.webp"
-                  />
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/a3af9ccddc518d19d901c1b987aa5680591b4a5f2d47f761ae1ed0d135ce5a9c.webp" />
                 </svg>
-               
+                <span class="pq-world-pick">CHOOSE HERO</span>
               </div>
-              <span class="pq-world-role">The Ranger</span>
-              <span class="pq-world-species">BASHER · 02</span>
+              <span class="pq-world-role">Shailu Mirsha</span>
+              <span class="pq-world-species">@Shailu-Mirsha · Live</span>
             </button>
-            <!-- 05: The Bard -->
             <button
               type="button"
-              aria-label="Choose the bard — the bard"
+              aria-label="Choose alisha"
               aria-pressed="false"
               class="pq-world-hero"
+              data-github="alisha1806"
+              data-portfolio="https://my-portfolio-as.lovable.app"
+              data-status="Live"
               style="
                 --hero-color: #e0c577;
                 --hero-ink: #73572f;
-                --hero-angle: -1deg;
-                --hero-delay: -3s;
+                --hero-angle: 1deg;
+                --hero-delay: -3.6s;
               "
             >
               <div class="pq-world-portrait">
                 <span aria-hidden="true" class="pq-world-spark">✦</span>
                 <div aria-hidden="true" class="pq-world-halo"></div>
                 <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/039b52e2583bed1e3cb9ca321d5a0ac78016d7a55a32dbe41817eecee427f350.webp"
-                  />
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/039b52e2583bed1e3cb9ca321d5a0ac78016d7a55a32dbe41817eecee427f350.webp" />
                 </svg>
-               
+                <span class="pq-world-pick">CHOOSE HERO</span>
               </div>
-              <span class="pq-world-role">The Bard</span>
-              <span class="pq-world-species">BASHER · 03</span>
+              <span class="pq-world-role">Alisha</span>
+              <span class="pq-world-species">@alisha1806 · Live</span>
             </button>
-            <!-- 06: The Rogue -->
             <button
               type="button"
-              aria-label="Choose the rogue — the rogue"
+              aria-label="Choose archana"
               aria-pressed="false"
               class="pq-world-hero"
+              data-github="Carchana2006"
+              data-portfolio="—"
+              data-status="Pending"
+              style="
+                --hero-color: #adc7df;
+                --hero-ink: #314d6b;
+                --hero-angle: 3deg;
+                --hero-delay: -4.8s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/deb859392f93574515a763d6512f128baeca1835a22f908c9715d5c7f31c5dad.webp" />
+                </svg>
+                <span class="pq-world-pick">CHOOSE HERO</span>
+              </div>
+              <span class="pq-world-role">Archana</span>
+              <span class="pq-world-species">@Carchana2006 · Pending</span>
+            </button>
+            <button
+              type="button"
+              aria-label="Choose lifnan shijo"
+              aria-pressed="false"
+              class="pq-world-hero"
+              data-github="lifnanshijo"
+              data-portfolio="—"
+              data-status="Pending"
               style="
                 --hero-color: #d6acba;
                 --hero-ink: #683e50;
-                --hero-angle: 1deg;
-                --hero-delay: -4.2s;
+                --hero-angle: -5deg;
+                --hero-delay: -6.0s;
               "
             >
               <div class="pq-world-portrait">
                 <span aria-hidden="true" class="pq-world-spark">✦</span>
                 <div aria-hidden="true" class="pq-world-halo"></div>
                 <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/28e7f1ec74bd8523d6eb14660f589f296031a6304ebcd28b0c6fa95c7de7db94.webp"
-                  />
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/28e7f1ec74bd8523d6eb14660f589f296031a6304ebcd28b0c6fa95c7de7db94.webp" />
                 </svg>
-               
+                <span class="pq-world-pick">CHOOSE HERO</span>
               </div>
-              <span class="pq-world-role">The Rogue</span>
-              <span class="pq-world-species">BASHER · 04</span>
+              <span class="pq-world-role">Lifnan shijo</span>
+              <span class="pq-world-species">@lifnanshijo · Pending</span>
             </button>
-            <!-- 07: The Healer -->
             <button
               type="button"
-              aria-label="Choose the healer — the healer"
+              aria-label="Choose shaniya"
               aria-pressed="false"
               class="pq-world-hero"
+              data-github="shaniya-v"
+              data-portfolio="—"
+              data-status="Pending"
               style="
-                --hero-color: #b8dcc5;
-                --hero-ink: #2f5a53;
-                --hero-angle: 3deg;
-                --hero-delay: -5.4s;
-              "
-            >
-              <div class="pq-world-portrait">
-                <span aria-hidden="true" class="pq-world-spark">✦</span>
-                <div aria-hidden="true" class="pq-world-halo"></div>
-                <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/1468c2f93d7ff898521d0994e1571b731d945f9e25e949f1df2571c48b388b44.webp"
-                  />
-                </svg>
-               
-              </div>
-              <span class="pq-world-role">The Healer</span>
-              <span class="pq-world-species">BASHER · 05</span>
-            </button>
-            <!-- 08: The Druid -->
-            <button
-              type="button"
-              aria-label="Choose the druid — the druid"
-              aria-pressed="false"
-              class="pq-world-hero"
-              style="
-                --hero-color: #d4b896;
-                --hero-ink: #6b4f33;
-                --hero-angle: 5deg;
-                --hero-delay: -6.6s;
-              "
-            >
-              <div class="pq-world-portrait">
-                <span aria-hidden="true" class="pq-world-spark">✦</span>
-                <div aria-hidden="true" class="pq-world-halo"></div>
-                <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/a3af9ccddc518d19d901c1b987aa5680591b4a5f2d47f761ae1ed0d135ce5a9c.webp"
-                  />
-                </svg>
-               
-              </div>
-              <span class="pq-world-role">The Druid</span>
-              <span class="pq-world-species">BASHER · 06</span>
-            </button>
-            <!-- 09: The Berserker -->
-            <button
-              type="button"
-              aria-label="Choose the berserker — the berserker"
-              aria-pressed="false"
-              class="pq-world-hero"
-              style="
-                --hero-color: #c9b4d8;
-                --hero-ink: #4a3f66;
+                --hero-color: #a9cbb7;
+                --hero-ink: #254c47;
                 --hero-angle: -4deg;
-                --hero-delay: -7.8s;
+                --hero-delay: -7.2s;
               "
             >
               <div class="pq-world-portrait">
                 <span aria-hidden="true" class="pq-world-spark">✦</span>
                 <div aria-hidden="true" class="pq-world-halo"></div>
                 <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/deb859392f93574515a763d6512f128baeca1835a22f908c9715d5c7f31c5dad.webp"
-                  />
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/1468c2f93d7ff898521d0994e1571b731d945f9e25e949f1df2571c48b388b44.webp" />
                 </svg>
-               
+                <span class="pq-world-pick">CHOOSE HERO</span>
               </div>
-              <span class="pq-world-role">The Berserker</span>
-              <span class="pq-world-species">BASHER · 07</span>
+              <span class="pq-world-role">Shaniya</span>
+              <span class="pq-world-species">@shaniya-v · Pending</span>
             </button>
-            <!-- 10: The Monk -->
             <button
               type="button"
-              aria-label="Choose the monk — the monk"
+              aria-label="Choose arthi"
               aria-pressed="false"
               class="pq-world-hero"
+              data-github="Arthi-as"
+              data-portfolio="—"
+              data-status="Pending"
               style="
-                --hero-color: #e8c98a;
-                --hero-ink: #6e5428;
+                --hero-color: #c7b2df;
+                --hero-ink: #50436b;
                 --hero-angle: -2deg;
-                --hero-delay: -9s;
+                --hero-delay: -8.4s;
               "
             >
               <div class="pq-world-portrait">
                 <span aria-hidden="true" class="pq-world-spark">✦</span>
                 <div aria-hidden="true" class="pq-world-halo"></div>
                 <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/039b52e2583bed1e3cb9ca321d5a0ac78016d7a55a32dbe41817eecee427f350.webp"
-                  />
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/2e3844c11fe91b0e2aa071f60a7f9684221d0d6a3168086673bb7a48de3f3293.webp" />
                 </svg>
-               
+                <span class="pq-world-pick">CHOOSE HERO</span>
               </div>
-              <span class="pq-world-role">The Monk</span>
-              <span class="pq-world-species">BASHER · 08</span>
+              <span class="pq-world-role">Arthi</span>
+              <span class="pq-world-species">@Arthi-as · Pending</span>
             </button>
-            <!-- 11: The Archer -->
             <button
               type="button"
-              aria-label="Choose the archer — the archer"
+              aria-label="Choose beule sujarsa"
               aria-pressed="false"
               class="pq-world-hero"
+              data-github="Beule-Sujarsa"
+              data-portfolio="—"
+              data-status="Pending"
               style="
-                --hero-color: #ddb7c3;
-                --hero-ink: #624050;
+                --hero-color: #e3ac8e;
+                --hero-ink: #724433;
                 --hero-angle: 2deg;
-                --hero-delay: -10.2s;
+                --hero-delay: -9.6s;
               "
             >
               <div class="pq-world-portrait">
                 <span aria-hidden="true" class="pq-world-spark">✦</span>
                 <div aria-hidden="true" class="pq-world-halo"></div>
                 <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/28e7f1ec74bd8523d6eb14660f589f296031a6304ebcd28b0c6fa95c7de7db94.webp"
-                  />
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/a3af9ccddc518d19d901c1b987aa5680591b4a5f2d47f761ae1ed0d135ce5a9c.webp" />
                 </svg>
-               
+                <span class="pq-world-pick">CHOOSE HERO</span>
               </div>
-              <span class="pq-world-role">The Archer</span>
-              <span class="pq-world-species">BASHER · 09</span>
+              <span class="pq-world-role">Beule Sujarsa</span>
+              <span class="pq-world-species">@Beule-Sujarsa · Pending</span>
             </button>
-            <!-- 12: The Alchemist -->
             <button
               type="button"
-              aria-label="Choose the alchemist — the alchemist"
+              aria-label="Choose aswathi"
               aria-pressed="false"
               class="pq-world-hero"
+              data-github="aswathi-8002"
+              data-portfolio="—"
+              data-status="Pending"
               style="
-                --hero-color: #b3cbe0;
-                --hero-ink: #35506a;
-                --hero-angle: 4deg;
-                --hero-delay: -11.4s;
+                --hero-color: #e0c577;
+                --hero-ink: #73572f;
+                --hero-angle: -4deg;
+                --hero-delay: -10.8s;
               "
             >
               <div class="pq-world-portrait">
                 <span aria-hidden="true" class="pq-world-spark">✦</span>
                 <div aria-hidden="true" class="pq-world-halo"></div>
                 <div aria-hidden="true" class="pq-world-shadow"></div>
-                <svg
-                  aria-hidden="true"
-                  class="pq-world-creature"
-                  viewBox="0 0 1024 1536"
-                >
-                  <image
-                    width="1024"
-                    height="1536"
-                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/2e3844c11fe91b0e2aa071f60a7f9684221d0d6a3168086673bb7a48de3f3293.webp"
-                  />
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/039b52e2583bed1e3cb9ca321d5a0ac78016d7a55a32dbe41817eecee427f350.webp" />
                 </svg>
-               
+                <span class="pq-world-pick">CHOOSE HERO</span>
               </div>
-              <span class="pq-world-role">The Alchemist</span>
-              <span class="pq-world-species">BASHER · 10</span>
+              <span class="pq-world-role">Aswathi</span>
+              <span class="pq-world-species">@aswathi-8002 · Pending</span>
+            </button>
+            <button
+              type="button"
+              aria-label="Choose shaber mohamad"
+              aria-pressed="false"
+              class="pq-world-hero"
+              data-github="shabermohamadb"
+              data-portfolio="—"
+              data-status="Pending"
+              style="
+                --hero-color: #adc7df;
+                --hero-ink: #314d6b;
+                --hero-angle: 3deg;
+                --hero-delay: -12.0s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/deb859392f93574515a763d6512f128baeca1835a22f908c9715d5c7f31c5dad.webp" />
+                </svg>
+                <span class="pq-world-pick">CHOOSE HERO</span>
+              </div>
+              <span class="pq-world-role">Shaber Mohamad</span>
+              <span class="pq-world-species">@shabermohamadb · Pending</span>
             </button>
             </div>
           </div>
@@ -2555,7 +2539,7 @@
 
         <div class="pq-world-controls">
           <button type="button" aria-label="Previous hero">←</button>
-          <span aria-live="polite">14 HEROES</span>
+          <span aria-live="polite">15 HEROES</span>
           <button type="button" aria-label="Next hero">→</button>
         </div>
 
@@ -2766,6 +2750,24 @@
         const detailEl = document.getElementById("pq-char-modal-detail");
         const closeBtn = document.getElementById("pq-char-modal-close");
         if (!modal) return;
+
+        function positionModal() {
+          try {
+            const fe = window.frameElement;
+            if (fe && window.parent) {
+              const r = fe.getBoundingClientRect();
+              const visTop = Math.max(0, -r.top);
+              const visBottom = Math.min(window.parent.innerHeight, r.bottom);
+              const visH = Math.max(0, visBottom - Math.max(0, r.top));
+              modal.style.top = visTop + "px";
+              modal.style.height = visH + "px";
+              return;
+            }
+          } catch (e) {}
+          modal.style.top = "0px";
+          modal.style.height = "100vh";
+        }
+
         function openFromCard(card) {
           const name = card.querySelector(".pq-world-role")?.textContent?.trim() || "Character";
           const species = card.querySelector(".pq-world-species")?.textContent?.trim() || "";
@@ -2781,18 +2783,39 @@
           } else {
             portrait.innerHTML = "";
           }
+          const github = card.getAttribute("data-github") || "";
+          const portfolio = card.getAttribute("data-portfolio") || "";
+          const status = card.getAttribute("data-status") || "";
           nameEl.textContent = name;
           speciesEl.textContent = species;
-          detailEl.textContent = species ? `${name} is part of ${species.replace(/ · .*/, "")}.` : "";
+          if (github || portfolio || status) {
+            const parts = [];
+            if (github) parts.push(`<div><strong>GitHub:</strong> ${github.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}</div>`);
+            if (status) parts.push(`<div><strong>Status:</strong> ${status.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}</div>`);
+            if (portfolio && portfolio !== "—") {
+              const safe = portfolio.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+              parts.push(`<div><strong>Portfolio:</strong> <a href="${safe}" target="_blank" rel="noreferrer" style="color:#6d5477;text-decoration:underline;">${safe}</a></div>`);
+            } else if (portfolio === "—") {
+              parts.push(`<div><strong>Portfolio:</strong> Pending</div>`);
+            }
+            detailEl.innerHTML = parts.join("");
+          } else {
+            detailEl.textContent = species ? `${name} is part of ${species.replace(/ · .*/, "")}.` : "";
+          }
+          positionModal();
           modal.classList.add("is-open");
           modal.setAttribute("aria-hidden", "false");
           document.body.style.overflow = "hidden";
+          try { window.parent.addEventListener("scroll", positionModal, { passive: true }); window.parent.addEventListener("resize", positionModal); } catch (e) {}
         }
+
         function close() {
           modal.classList.remove("is-open");
           modal.setAttribute("aria-hidden", "true");
           document.body.style.overflow = "";
+          try { window.parent.removeEventListener("scroll", positionModal); window.parent.removeEventListener("resize", positionModal); } catch (e) {}
         }
+
         document.querySelectorAll(".pq-world-hero").forEach((card) => {
           card.addEventListener("click", () => openFromCard(card));
         });
