@@ -50,6 +50,10 @@ function RouteSEO() {
     title = 'Quiz Leaderboard | Aura-7F BashClan 1'
     description = 'Check live rankings and scoreboards for coding quizzes and technical challenges in Aura-7F (Byte Bash Blitz).'
     keywords = 'aura7f leaderboard, aura 7f rankings, byte bash blitz quiz, bytebashblitz, bashers leaderboard'
+  } else if (path === '/data') {
+    title = 'Voice Data & Activity | Aura-7F BashClan 1'
+    description = 'Explore Aura-7F voice session analytics: daily voice activity, top voices, clan presence, and session logs from the Byte Bash Blitz realm.'
+    keywords = 'aura7f data, aura 7f voice sessions, voice monitor, byte bash blitz data, bashers activity, discord voice stats'
   }
 
   return <SEO title={title} description={description} keywords={keywords} />
@@ -80,6 +84,7 @@ const NewProjects = React.lazy(() => import('./pages/NewProjects'))
 const NewMembers = React.lazy(() => import('./pages/NewMembers'))
 const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'))
 const GuestDashboard = React.lazy(() => import('./pages/GuestDashboard'))
+const Data = React.lazy(() => import('./pages/Data'))
 const Registration = React.lazy(() => import('./pages/Registration'))
 const HomeV3 = React.lazy(() => import('./pages/home-v3'))
 const HomeDesign = React.lazy(() => import('./pages/home-design'))
@@ -253,6 +258,11 @@ function AppContent() {
                 <Route path="/guestdashboard" element={
                   <React.Suspense fallback={<div className="h-screen w-full bg-[#0d1117] flex items-center justify-center text-slate-500 font-cinzel font-bold text-xl uppercase">Loading Welcome Room...</div>}>
                     <GuestDashboard />
+                  </React.Suspense>
+                } />
+                <Route path="/data" element={
+                  <React.Suspense fallback={<div className="h-screen w-full bg-[#05020a] flex items-center justify-center text-amber-400 font-cinzel font-bold text-xl uppercase tracking-widest">Loading Data Vault...</div>}>
+                    <Data />
                   </React.Suspense>
                 } />
                 <Route path="/profile/:name" element={<Profile />} />

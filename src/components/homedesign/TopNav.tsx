@@ -31,6 +31,7 @@ export default function TopNav() {
     { label: 'Members', href: '/members-design' },
     { label: 'Events', href: '/events-design' },
     { label: 'Projects', href: '/projects' },
+    { label: 'Data', href: '/data' },
     { label: 'About', href: '/about' },
     { label: 'Login', href: '/login-design' },
   ];

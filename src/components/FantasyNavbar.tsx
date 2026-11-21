@@ -59,6 +59,7 @@ export default function FantasyNavbar() {
                                 { id: 'Projects', url: '/newprojects', img: '/projects1.png', imgClass: 'scale-[1.4]' },
                                 { id: 'Members', url: '/newmembers', img: '/members.png', imgClass: 'scale-[1.4]' },
                                 { id: 'Gallery', url: '/newgallery', img: '/gallery.png', imgClass: 'scale-[1.4]' },
+                                { id: 'Data', url: '/data' },
                             ].map((btn) => {
                                 const isActive = location.pathname.startsWith(btn.url);
                                 return (
