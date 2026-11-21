@@ -8,6 +8,7 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "@designcodeio/threeui": "^1.2.0",
     "@gsap/react": "^2.1.2",
     "@supabase/supabase-js": "^2.91.0",
     "@tabler/icons-react": "^3.36.1",

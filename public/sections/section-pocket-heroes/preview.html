@@ -1,0 +1,2806 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Pocket Quest · ThreeUI</title>
+    <style>
+      /* --- Keyframes & Custom Properties --- */
+      @keyframes _wordRise_1pamk_1 {
+        0% {
+          transform: translateY(118%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      @keyframes _digitIn_1pamk_1 {
+        0% {
+          opacity: 0;
+          transform: translateY(0.5em);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes _swapIn_1pamk_1 {
+        0% {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 768px) {
+        @keyframes _stageInMobile_1pamk_1 {
+          0% {
+            opacity: 0;
+            transform: translate(-50%) translateY(8px);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%);
+          }
+        }
+      }
+      @keyframes _stageIn_1pamk_1 {
+        0% {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @property --fill {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+      }
+      @property --n {
+        syntax: "<integer>";
+        inherits: false;
+        initial-value: 0;
+      }
+      @keyframes _statsRise_10nox_1 {
+        to {
+          transform: translateY(0);
+        }
+      }
+      @keyframes _statsFade_10nox_1 {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes _guildsFade_194d4_1 {
+        to {
+          opacity: 1;
+          transform: translate(-50%) translateY(0);
+        }
+      }
+      @keyframes _footRise_jyv7u_1 {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes _bubbleFloat_jyv7u_1 {
+        0%,
+        to {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+      @keyframes _dotRun_jyv7u_1 {
+        0%,
+        60%,
+        to {
+          opacity: 0.25;
+          transform: translateY(0);
+        }
+        30% {
+          opacity: 1;
+          transform: translateY(-3px);
+        }
+      }
+      @keyframes _bubblePop_jyv7u_1 {
+        0% {
+          opacity: 0;
+          transform: translateY(8px) scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      @keyframes _bubbleLine_jyv7u_1 {
+        0% {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes _s2rise_bwga5_1 {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes _rise_bwga5_1 {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes _s5headRise_bwga5_1 {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes _cookieIn_1lt29_1 {
+        0% {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes pq-world-hover {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+      @keyframes pq-chibi-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+      @keyframes pq-party-arrive {
+        from {
+          opacity: 0;
+          transform: translateY(calc(var(--lift) + 24px))
+            rotate(calc(var(--angle) * 0.5));
+        }
+        to {
+          opacity: 1;
+          transform: translateY(var(--lift)) rotate(var(--angle));
+        }
+      }
+
+      /* --- Fonts --- */
+      @font-face {
+        font-family: Switzer;
+        src: url("https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/d1bf801ffb1a6096def70a7c532255722ad87d948b13a8a586e342f7091f8ee4.woff2")
+          format("woff2-variations");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "PP Pangaia";
+        src: url("https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/4e40a135ca1cf92ac998da695c53dba7ca1b1b4b6cf6fbf86b4a7d2b952f0ce1.woff2")
+          format("woff2");
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* --- Reset & Root Variables --- */
+      *,
+      :before,
+      :after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        :before,
+        :after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.001ms !important;
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+
+      :root {
+        --bg-primary: #fff;
+        --bg-secondary: #f2f2f7;
+        --bg-grouped: #f2f2f7;
+        --bg-card: #00000008;
+        --text-primary: #000;
+        --text-secondary: #8e8e93;
+        --text-tertiary: #c7c7cc;
+        --text-quaternary: #d1d1d6;
+        --tint: #007aff;
+        --tint-light: #007aff1a;
+        --destructive: #ff3b30;
+        --destructive-light: #ff3b301a;
+        --warning: #ff9500;
+        --success: #34c759;
+        --glass-bg: #fffc;
+        --glass-border: #0000000f;
+        --glass-blur: 20px;
+        --separator: #3c3c431f;
+        --radius-card: 20px;
+        --radius-button: 12px;
+        --radius-input: 10px;
+        --radius-progress: 4px;
+        --spacing-xs: 4px;
+        --spacing-sm: 8px;
+        --spacing-md: 12px;
+        --spacing-lg: 16px;
+        --spacing-xl: 24px;
+        --spacing-2xl: 32px;
+        --spacing-3xl: 40px;
+        --font-sans: "Switzer", -apple-system, "SF Pro Display", system-ui,
+          sans-serif;
+        --font-serif: Georgia, "Times New Roman", serif;
+        --font-mono: "SF Mono", ui-monospace, "Menlo", monospace;
+        --shell-bg: #eeeae3;
+        --shell-text: #1c1c1e;
+        --shell-text-secondary: #1c1c1e80;
+        --landing-bg: #fafaf8;
+        --landing-bg-warm: #f0ede6;
+        --landing-text: #18181b;
+        --landing-text-secondary: #71717a;
+        --landing-text-tertiary: #a1a1aa;
+        --landing-border: #18181b0f;
+        --landing-card: #fff;
+        --landing-shadow: 0 20px 40px -15px #18181b0f;
+        --landing-shadow-hover: 0 24px 48px -12px #18181b1a;
+        --landing-radius: 2rem;
+        --landing-radius-inner: calc(2rem - 6px);
+        --landing-max-width: 1200px;
+        --landing-transition: cubic-bezier(0.32, 0.72, 0, 1);
+      }
+
+      html,
+      body {
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background: #070708;
+        color: var(--text-primary);
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      #root {
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      button {
+        font-family: var(--font-sans);
+        cursor: pointer;
+        font-size: inherit;
+        background: 0 0;
+        border: none;
+      }
+
+      button:focus-visible {
+        outline-offset: 2px;
+        border-radius: 3px;
+        outline: 2px solid #fffffff2;
+        box-shadow: 0 0 0 2px #000000a6;
+      }
+
+      /* --- Guilds Wrapper --- */
+      ._guilds_194d4_3 {
+        color: #000;
+        background: #f6f6f6;
+        border-radius: 0;
+        height: 92vw;
+        font-family: -apple-system, BlinkMacSystemFont, SF Pro Display,
+          system-ui, sans-serif;
+        position: relative;
+        overflow: hidden;
+      }
+
+      @media (max-width: 768px) {
+        ._guilds_194d4_3 {
+          border-radius: 0;
+          height: 760px;
+        }
+      }
+
+      /* --- Pocket Quest Buttons & Utilities --- */
+      .pq-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        padding: 15px 28px;
+        border: 0;
+        border-radius: 100px;
+        background: #ecd0f6;
+        color: #1b1022;
+        font: 600 15px Switzer, Arial, sans-serif;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+        touch-action: manipulation;
+      }
+      .pq-button:hover {
+        background: #f4e5f9;
+        transform: translateY(-2px);
+      }
+      .pq-button:focus-visible,
+      .pq-close:focus-visible,
+      .pq-card:focus-visible,
+      .pq-hero:focus-visible {
+        outline: 3px solid #bf81de;
+        outline-offset: 4px;
+      }
+
+      .pq-eyebrow {
+        font: 600 11px Switzer, Arial, sans-serif;
+        letter-spacing: 0.14em;
+      }
+
+      /* --- Pocket World Showcase Section --- */
+      .pq-world {
+        isolation: isolate;
+        position: relative;
+        min-height: 850px;
+        height: auto !important;
+        padding: 28px 40px 60px;
+        background: radial-gradient(
+            ellipse at 50% 70%,
+            #e6ddd7 0,
+            transparent 55%
+          ),
+          #f3f0e9 !important;
+        color: #24201f;
+        border-radius: 0 !important;
+        font-family: Switzer, Arial, sans-serif !important;
+        overflow: hidden;
+      }
+      .pq-world:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        opacity: 0.24;
+        background-image: url("https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/67d0a6922a68cdd61790b3919c82407c48fd6c91749bfdc7eeda7938017a5f71.svg");
+        pointer-events: none;
+      }
+      .pq-world-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        font-size: 10px;
+        font-weight: 550;
+        letter-spacing: 0.12em;
+        color: #77716a;
+        border-bottom: 1px solid #3e342a25;
+        padding-bottom: 20px;
+      }
+      .pq-world-top > span:first-child {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .pq-world-top img {
+        width: 20px;
+        height: 20px;
+        filter: brightness(0.35);
+      }
+      .pq-world-heading {
+        display: grid;
+        grid-template-columns: 1.8fr 1fr;
+        align-items: end;
+        gap: 50px;
+        max-width: 1440px;
+        margin: 54px auto 0;
+      }
+      .pq-world h2 {
+        font: 300 clamp(65px, 7.8vw, 130px) / 0.93 "PP Pangaia", Georgia, serif;
+        letter-spacing: -0.055em;
+        margin: 0;
+        text-transform: none;
+        text-wrap: balance;
+        max-width: 100%;
+      }
+      .pq-world h2 em {
+        font-style: italic;
+        color: #6d5477;
+        white-space: nowrap;
+      }
+      .pq-world-intro {
+        max-width: 310px;
+        justify-self: end;
+        padding: 0 2px 9px 0;
+      }
+      .pq-world-kicker {
+        font-size: 9px;
+        font-weight: 650;
+        letter-spacing: 0.12em;
+      }
+      .pq-world-intro p {
+        font-size: 15px;
+        line-height: 1.55;
+        color: #716a63;
+        margin: 13px 0 16px;
+      }
+      .pq-world-invitation {
+        font-size: 11px;
+        color: #5e4a67;
+      }
+      .pq-world-stage {
+        position: relative;
+        max-width: 1440px;
+        margin: 23px auto 0;
+        padding-top: 28px;
+      }
+      .pq-world-orbit {
+        position: absolute;
+        top: 28%;
+        left: -10%;
+        width: 120%;
+        height: 55%;
+        border: 1px solid #76634e26;
+        border-radius: 50%;
+        transform: rotate(-5deg);
+        pointer-events: none;
+      }
+      .pq-world-orbit:after {
+        content: "✦";
+        position: absolute;
+        right: 16%;
+        top: 2%;
+        font-size: 26px;
+        color: #b49b77;
+      }
+      .pq-world-gallery {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 17px;
+        padding: 24px 8px 26px;
+      }
+      .pq-world-section {
+        position: relative;
+      }
+      .pq-world-section-title {
+        margin: 0 8px;
+        padding: 18px 0 0;
+        font: 700 11px/1 Switzer, Arial, sans-serif;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #6a5648;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .pq-world-section-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, #c9b7a1, transparent);
+      }
+      .pq-world-gallery--captains,
+      .pq-world-gallery--legacy {
+        grid-template-columns: repeat(2, minmax(0, 220px));
+        justify-content: center;
+        gap: 28px;
+      }
+      .pq-world-gallery--bashers {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+      .pq-world-hero {
+        border: 0;
+        background: none;
+        min-width: 0;
+        padding: 0;
+        text-align: center;
+        color: #3c322c;
+        cursor: pointer;
+        transform: rotate(var(--hero-angle));
+        transform-origin: 50% 76%;
+        transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+        font-family: Switzer, Arial, sans-serif;
+        touch-action: manipulation;
+      }
+      .pq-world-hero.is-selected {
+        transform: translateY(-12px) rotate(0);
+      }
+      .pq-world-hero:hover {
+        transform: translateY(-16px) rotate(0);
+      }
+      .pq-world-hero:focus-visible {
+        outline: 2px solid #73527e;
+        outline-offset: 7px;
+        border-radius: 110px 110px 22px 22px;
+      }
+      .pq-world-portrait {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 0.61;
+        max-height: 354px;
+        background: linear-gradient(
+          155deg,
+          color-mix(in srgb, var(--hero-color) 64%, #fff8ed),
+          var(--hero-color)
+        );
+        border-radius: 100px 100px 17px 17px;
+        border: 1px solid #ffffffa6;
+        box-shadow: 0 20px 26px -20px #33261e80, inset 0 0 0 7px #fff6,
+          0 2px 4px #4c302b10;
+        overflow: hidden;
+        transition: box-shadow 0.3s;
+      }
+      .pq-world-hero.is-selected .pq-world-portrait {
+        box-shadow: 0 25px 30px -18px #4a2b4870, inset 0 0 0 7px #fff8,
+          0 0 0 2px var(--hero-ink);
+      }
+      .pq-world-hero:hover .pq-world-portrait {
+        box-shadow: 0 28px 34px -18px #4a2b4870, inset 0 0 0 7px #fff8,
+          0 0 0 2px color-mix(in srgb, var(--hero-ink) 65%, #fff 35%);
+      }
+      .pq-world-index {
+        position: absolute;
+        top: 23px;
+        left: 21px;
+        font-size: 10px;
+        opacity: 0.6;
+        color: var(--hero-ink);
+        z-index: 1;
+      }
+      .pq-world-spark {
+        position: absolute;
+        right: 21px;
+        top: 22px;
+        color: var(--hero-ink);
+        opacity: 0.6;
+        font-size: 12px;
+      }
+      .pq-world-halo {
+        position: absolute;
+        inset: 12px 12px 36px;
+        border: 1px solid #ffffff82;
+        border-radius: 100px 100px 70px 70px;
+      }
+      .pq-world-halo:after {
+        content: "";
+        position: absolute;
+        inset: 9px;
+        border: 1px solid #fff5;
+        border-radius: inherit;
+      }
+      .pq-world-shadow {
+        position: absolute;
+        left: 15%;
+        right: 15%;
+        bottom: 30px;
+        height: 9px;
+        border-radius: 50%;
+        background: #34282042;
+        filter: blur(7px);
+      }
+      .pq-world-creature {
+        position: absolute;
+        left: 5%;
+        bottom: 38px;
+        width: 90%;
+        height: 76%;
+        filter: drop-shadow(0 9px 8px #38251b20);
+        animation: pq-world-hover 6s ease-in-out infinite;
+        animation-delay: var(--hero-delay);
+        animation-play-state: paused;
+      }
+      .pq-world.is-visible .pq-world-creature {
+        animation-play-state: running;
+      }
+      .pq-world-pick {
+        position: absolute;
+        bottom: 14px;
+        left: 0;
+        right: 0;
+        font-size: 8px;
+        font-weight: 650;
+        letter-spacing: 0.12em;
+        color: var(--hero-ink);
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+      .pq-world-hero:hover .pq-world-pick,
+      .pq-world-hero.is-selected .pq-world-pick,
+      .pq-world-hero:focus-visible .pq-world-pick {
+        opacity: 1;
+      }
+      .pq-world-role {
+        display: block;
+        margin: 16px -8px 0;
+        font: 300 clamp(20px, 2vw, 30px) / 1.1 "PP Pangaia", Georgia, serif;
+        letter-spacing: -0.025em;
+      }
+      .pq-world-species {
+        display: block;
+        text-transform: uppercase;
+        font-size: 8px;
+        letter-spacing: 0.16em;
+        color: #8a7e74;
+        margin-top: 7px;
+      }
+      .pq-world-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+        max-width: 1424px;
+        margin: 20px auto 0;
+        padding-top: 26px;
+        border-top: 1px solid #75634b30;
+      }
+      .pq-world-story {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .pq-world-story-name {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        font-weight: 600;
+        white-space: nowrap;
+        color: #766a60;
+      }
+      .pq-world-story p {
+        font-size: 13px;
+        line-height: 1.5;
+        margin: 0;
+        color: #756e68;
+        max-width: 300px;
+      }
+      .pq-world-action {
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .pq-world-controls button:focus-visible {
+        outline: 3px solid #a579b1;
+        outline-offset: 4px;
+      }
+      .pq-world-action > span {
+        display: block;
+        margin-top: 13px;
+        font-size: 10px;
+        color: #74685d;
+        letter-spacing: 0;
+      }
+      .pq-world-controls {
+        display: none;
+      }
+
+      /* --- Round Action Button --- */
+      .pq-round-button {
+        display: inline-grid;
+        grid-template-columns: 38px 1fr auto;
+        align-items: center;
+        gap: 15px;
+        min-height: 74px;
+        min-width: 292px;
+        padding: 13px 18px 13px 14px;
+        border: 1px solid #5f5448;
+        border-radius: 5px;
+        background: #f5f0e5;
+        color: #302b28;
+        box-shadow: 0 3px 0 #5f5448;
+        text-align: left;
+        cursor: pointer;
+        font-family: Switzer, Arial, sans-serif;
+        transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
+        touch-action: manipulation;
+      }
+      .pq-round-symbol {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border: 1px solid #b1a38a;
+        border-radius: 50%;
+        background: #ece3cf;
+      }
+      .pq-round-symbol svg {
+        width: 23px;
+        height: 23px;
+      }
+      .pq-round-label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .pq-round-label small {
+        font-size: 8px;
+        font-weight: 650;
+        letter-spacing: 0.16em;
+        color: #867453;
+      }
+      .pq-round-label strong {
+        font-size: 15px;
+        line-height: 1.2;
+        font-weight: 550;
+        white-space: nowrap;
+      }
+      .pq-round-time {
+        font: 300 20px/1 "PP Pangaia", Georgia, serif;
+        border-left: 1px solid #c8bdab;
+        padding: 9px 0 9px 15px;
+        margin-left: 9px;
+      }
+      .pq-round-button:hover {
+        background: #e9ddc6;
+        box-shadow: 0 4px 0 #5f5448;
+        transform: translateY(-1px);
+      }
+      .pq-round-button:active {
+        transform: translateY(3px);
+        box-shadow: 0 0 0 #5f5448;
+      }
+      .pq-round-button:focus-visible {
+        outline: 2px solid #79548b;
+        outline-offset: 6px;
+      }
+      .pq-world-action .pq-round-button {
+        width: 300px;
+      }
+
+      /* --- Game Modal Dialog --- */
+      .pq-dialog {
+        --champion-color: #b8d1bf;
+        position: fixed;
+        inset: 0;
+        width: min(1080px, calc(100% - 48px));
+        max-width: none;
+        height: min(800px, calc(100svh - 48px));
+        max-height: none;
+        margin: auto;
+        border: 1px solid #b7a0c235;
+        border-radius: 25px;
+        background: #17111d;
+        color: #f4edf4;
+        padding: 0;
+        overflow: hidden;
+        font-family: Switzer, Arial, sans-serif;
+        box-shadow: 0 40px 120px #0009, 0 1px 0 #d9c4e21c inset;
+        isolation: isolate;
+      }
+      .pq-dialog[open] {
+        display: grid;
+        grid-template-columns: 0.82fr 1.18fr;
+      }
+      .pq-dialog::backdrop {
+        background: #09060ecb;
+        backdrop-filter: blur(18px);
+      }
+      .pq-dialog:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.25;
+        background-image: url("https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/9fb47e54a80d798564105494d1a8ef24c2cae547442e6b41ec2f8e7081b1e1a2.svg");
+      }
+      .pq-dialog * {
+        box-sizing: border-box;
+      }
+      .pq-close {
+        position: absolute;
+        right: 17px;
+        top: 17px;
+        width: 34px;
+        height: 34px;
+        border: 1px solid #b299bd30;
+        border-radius: 50%;
+        background: #ffffff04;
+        color: #cbbbd3;
+        font: 23px Switzer, Arial, sans-serif;
+        cursor: pointer;
+        z-index: 5;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .pq-close:hover {
+        background: #b39bc41c;
+        transform: rotate(90deg);
+      }
+
+      /* Left Column: Game Intro & Champion Preview */
+      .pq-game-intro {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 35px 36px 28px;
+        background: radial-gradient(
+            ellipse at 50% 61%,
+            #73566c38,
+            transparent 66%
+          ),
+          linear-gradient(135deg, #211824, #18111d);
+        border-right: 1px solid #d2b8dd1c;
+        min-height: 0;
+        overflow: hidden;
+      }
+      .pq-game-intro > img {
+        width: 132px;
+        max-height: 40px;
+        object-fit: contain;
+        object-position: left;
+        margin: 0 0 35px;
+      }
+      .pq-game-intro > .pq-eyebrow {
+        color: #bba5c7;
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        display: block;
+      }
+      .pq-game-intro h2 {
+        font: 300 clamp(60px, 6.5vw, 83px) / 0.91 "PP Pangaia", Georgia, serif;
+        letter-spacing: -0.06em;
+        margin: 16px 0 19px;
+      }
+      .pq-game-intro h2 em {
+        display: block;
+        color: #d2b6e2;
+        font-style: italic;
+      }
+      .pq-game-intro > p {
+        font: 13px/1.6 Switzer, Arial, sans-serif;
+        color: #bcadbf;
+        margin: 0;
+        max-width: 280px;
+      }
+      .pq-champion {
+        position: relative;
+        flex: 1;
+        min-height: 190px;
+        margin: 20px 0 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 0 4px;
+        isolation: isolate;
+      }
+      .pq-champion:before {
+        content: "";
+        position: absolute;
+        width: 74%;
+        top: 5%;
+        bottom: 56px;
+        border: 1px solid #c0a4ca2b;
+        border-radius: 150px 150px 60px 60px;
+        background: radial-gradient(
+          ellipse at 50% 58%,
+          color-mix(in srgb, var(--champion-color) 16%, transparent),
+          transparent 73%
+        );
+        box-shadow: inset 0 0 45px #ad83be08;
+        z-index: -1;
+      }
+      .pq-champion:after {
+        content: "";
+        position: absolute;
+        left: 27%;
+        right: 27%;
+        height: 14px;
+        bottom: 75px;
+        background: #0005;
+        filter: blur(7px);
+        border-radius: 50%;
+        z-index: -1;
+      }
+      .pq-champion-orbit {
+        position: absolute;
+        inset: 11% 4% 27%;
+        border: 1px solid #c6a3c917;
+        border-radius: 50%;
+        transform: rotate(-29deg);
+        z-index: -1;
+      }
+      .pq-selected-hero {
+        display: block;
+        width: 78%;
+        height: auto;
+        min-height: 0;
+        max-height: calc(100% - 81px);
+        position: absolute;
+        top: 0;
+        bottom: 81px;
+        left: 11%;
+        margin: auto;
+        object-fit: contain;
+        filter: none;
+        overflow: visible;
+      }
+      .pq-champion-label {
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        color: #ac96b7;
+        margin: 8px 0;
+      }
+      .pq-champion h3 {
+        font: 300 24px/1 "PP Pangaia", Georgia, serif;
+        color: #eee1f0;
+        letter-spacing: -0.025em;
+        margin: 0;
+      }
+      .pq-champion p {
+        font-size: 11px;
+        color: #baa9c3;
+        margin: 9px 0 0;
+        line-height: 1.3;
+      }
+      .pq-champion-star {
+        position: absolute;
+        color: #d5b68d;
+        font-size: 23px;
+        z-index: 1;
+      }
+      .pq-champion-star.star-one {
+        top: 15%;
+        left: 5%;
+      }
+      .pq-champion-star.star-two {
+        top: 42%;
+        right: 8%;
+        font-size: 12px;
+      }
+      .pq-game-intro .pq-rules {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        list-style: none;
+        gap: 10px;
+        padding: 18px 0 0;
+        border-top: 1px solid #d7bdd822;
+        margin: 0 0 22px;
+        font-size: 11px;
+        flex-shrink: 0;
+      }
+      .pq-rules li {
+        margin: 0;
+        line-height: 1.35;
+      }
+      .pq-rules b {
+        font-size: 9px;
+        display: block;
+        color: #b695c6;
+        font-weight: 500;
+        margin-bottom: 7px;
+      }
+      .pq-rules span {
+        color: #bfb0c5;
+      }
+      .pq-game-intro small {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 10px;
+        color: #ac99b5;
+        margin: 0;
+        flex-shrink: 0;
+      }
+      .pq-live-dot {
+        width: 4px;
+        height: 4px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #b8cfb0;
+        box-shadow: 0 0 7px #a4c69c33;
+      }
+
+      /* Right Column: Board & HUD */
+      .pq-game {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        padding: 37px 32px 25px;
+        background: radial-gradient(
+          ellipse at 100% 0%,
+          #714f7c21,
+          transparent 70%
+        );
+        min-width: 0;
+        min-height: 0;
+      }
+      .pq-game-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 33px 0 0;
+        gap: 12px;
+        font-size: 9px;
+        letter-spacing: 0.13em;
+        color: #b5a1c0;
+        margin: 0 0 18px;
+        line-height: 1.3;
+      }
+      .pq-phase {
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        color: #aabdac;
+        white-space: nowrap;
+      }
+      .pq-phase:before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: currentColor;
+        margin: 0 6px 1px 0;
+      }
+      .pq-hud {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr 0.8fr;
+        gap: 9px;
+        font-size: 29px;
+        line-height: 1;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        flex-shrink: 0;
+      }
+      .pq-stat {
+        position: relative;
+        padding: 13px 15px 12px;
+        border: 1px solid #bca0c222;
+        border-radius: 11px;
+        background: linear-gradient(140deg, #d7b7e310, #d7b7e303);
+      }
+      .pq-hud small {
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        color: #baabc3;
+        margin: 0 0 11px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .pq-hud small span {
+        font-size: 12px;
+        line-height: 0.5;
+        color: #c8add5;
+      }
+      .pq-stat-score {
+        background: linear-gradient(140deg, #d9bf8814, #d9bf8803);
+        border-color: #c9b38d29;
+      }
+      .pq-stat-score > span {
+        color: #e9d3a9;
+      }
+      .pq-combo-dots {
+        display: inline-flex;
+        gap: 3px;
+        margin-left: 7px;
+        vertical-align: middle;
+      }
+      .pq-combo-dots i {
+        height: 3px;
+        width: 3px;
+        border-radius: 50%;
+        background: #8d739848;
+      }
+      .pq-timebar {
+        height: 2px;
+        background: #c8a6d21c;
+        margin: 13px 0 16px;
+        border-radius: 2px;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .pq-timebar > span {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #9579a9, #e3c8ed);
+        box-shadow: 0 0 10px #d6b8e177;
+        transition: width 0.1s linear;
+      }
+      .pq-board-caption {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin: 0 1px 12px;
+        font-size: 8px;
+        letter-spacing: 0.11em;
+        color: #af9db9;
+        flex-shrink: 0;
+      }
+      .pq-pairs {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 9px;
+        letter-spacing: 0.01em;
+        color: #c0afc9;
+      }
+      #pq-pair-marks {
+        display: flex;
+        gap: 4px;
+      }
+      #pq-pair-marks i {
+        width: 6px;
+        height: 6px;
+        border: 1px solid #bca7c778;
+        border-radius: 1px;
+        transform: rotate(45deg);
+      }
+
+      /* Cards & Board */
+      .pq-board-wrap {
+        position: relative;
+      }
+      .pq-board {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        perspective: 800px;
+      }
+      .pq-card {
+        border: 0;
+        padding: 0;
+        background: transparent;
+        aspect-ratio: 1.06;
+        border-radius: 10px;
+        position: relative;
+        cursor: pointer;
+        touch-action: manipulation;
+        transform-style: preserve-3d;
+        outline-offset: 3px;
+        transition: filter 0.2s, translate 0.2s;
+      }
+      .pq-card:disabled {
+        cursor: default;
+      }
+      .pq-card:enabled:hover:not(.is-face) {
+        filter: brightness(1.14);
+        translate: 0 -2px;
+      }
+      .pq-card:focus-visible {
+        outline: 2px solid #e1c89b;
+        outline-offset: 3px;
+      }
+      .pq-card-inner {
+        position: absolute;
+        inset: 0;
+        transition: transform 0.38s cubic-bezier(0.2, 0.7, 0.2, 1);
+        transform-style: preserve-3d;
+      }
+      .pq-card.is-face .pq-card-inner,
+      .pq-card.is-match .pq-card-inner,
+      .pq-board.is-peek .pq-card-inner {
+        transform: rotateY(180deg);
+      }
+      .pq-card-back,
+      .pq-card-front {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .pq-card-back {
+        color: #d5b7db;
+        background: radial-gradient(
+            ellipse at 25% 0,
+            #684d78aa,
+            transparent 70%
+          ),
+          linear-gradient(130deg, #46314f, #312137);
+        border: 1px solid #c5a2d163;
+        box-shadow: 0 3px 0 #08050b70, 0 7px 13px #07040a2b,
+          inset 0 1px 0 #e6c8ef26, inset 0 0 0 4px #21142635;
+      }
+      .pq-card-back > svg {
+        width: 100%;
+        height: 100%;
+        opacity: 0.84;
+      }
+      .pq-card-back > img {
+        width: 48%;
+        filter: brightness(0.3);
+      }
+      .pq-card-back:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #f3d8ed0b, transparent 43%);
+        pointer-events: none;
+      }
+      .pq-card-front {
+        transform: rotateY(180deg);
+        background: radial-gradient(
+          ellipse at 50% 30%,
+          color-mix(in srgb, var(--face-color) 70%, white),
+          var(--face-color)
+        );
+        border: 1px solid #fff6;
+        box-shadow: 0 3px 0 #07030b66, inset 0 0 0 4px #ffffff28;
+        color: var(--face-ink);
+      }
+      .pq-card-front:before {
+        content: "";
+        position: absolute;
+        inset: 7px 10px 17px;
+        border: 1px solid #fff6;
+        border-radius: 50% 50% 25% 25%;
+        pointer-events: none;
+      }
+      .pq-card-front > svg {
+        position: absolute;
+        inset: 6% 9% 18%;
+        width: 82%;
+        height: 76%;
+        filter: none;
+      }
+      .pq-card-front > img {
+        width: 92%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .pq-face-label {
+        position: absolute;
+        bottom: 7%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 7px;
+        letter-spacing: 0.07em;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .pq-match-check {
+        display: none;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #334f42;
+        color: #eff5e6;
+        align-items: center;
+        justify-content: center;
+        font: 10px Arial;
+      }
+      .pq-card.is-match .pq-card-front {
+        border-color: #c5dbb4;
+        box-shadow: 0 0 0 1px #b9d4a544, 0 0 13px #b5d89510,
+          inset 0 0 0 3px #fff2;
+      }
+      .pq-card.is-match .pq-match-check {
+        display: flex;
+      }
+      .pq-card.is-match {
+        filter: saturate(0.85);
+      }
+      .pq-card.is-miss .pq-card-front {
+        border: 2px solid #e38496;
+      }
+
+      /* Result Overlay & Footer Controls */
+      .pq-result {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        background: #21152ae8;
+        border: 1px solid #c4a5d066;
+        border-radius: 13px;
+        backdrop-filter: blur(8px);
+        z-index: 2;
+      }
+      .pq-result[hidden] {
+        display: none;
+      }
+      .pq-result .pq-eyebrow {
+        color: #c3b79d;
+        font-size: 9px;
+      }
+      .pq-result h3 {
+        font: 300 40px/0.98 "PP Pangaia", Georgia, serif;
+        letter-spacing: -0.04em;
+        color: #f3eaf4;
+        max-width: 250px;
+        margin: 18px 0;
+      }
+      .pq-result-score {
+        font: 500 48px/1 Switzer, Arial, sans-serif;
+        color: #ead6af;
+      }
+      .pq-result p {
+        font-size: 13px;
+        color: #c6afd0;
+        margin: 12px 0;
+      }
+      .pq-result .pq-button {
+        margin-top: 12px;
+        min-height: 42px;
+        font-size: 12px;
+        padding: 11px 24px;
+        background: #dfc6ed;
+      }
+
+      .pq-game-note {
+        font-size: 11px;
+        line-height: 1.4;
+        min-height: 15px;
+        color: #c1afcd;
+        margin: 13px 0 12px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .pq-heroes {
+        margin: 0 0 14px;
+        gap: 6px;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        flex-shrink: 0;
+      }
+      .pq-hero {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex-direction: column;
+        min-height: 59px;
+        padding: 6px 2px 5px;
+        border: 1px solid #b197c028;
+        border-radius: 8px;
+        background: #382b40;
+        font: 10px Switzer, Arial, sans-serif;
+        color: #d2c1dd;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s, color 0.2s;
+      }
+      .pq-hero[aria-pressed="true"] {
+        color: #f0e4f4;
+        background: #60456f;
+        border-color: #d4b1ea;
+        box-shadow: inset 0 0 0 2px #d1b4e015;
+      }
+      .pq-hero:hover {
+        background: #bba5c51c;
+        color: #f2e6f5;
+      }
+      .pq-dialog .pq-action {
+        position: relative;
+        width: 100%;
+        min-height: 48px;
+        margin: 0;
+        padding: 13px 35px;
+        background: #dfc6ed;
+        color: #25192e;
+        font-size: 12px;
+        font-weight: 600;
+        box-shadow: inset 0 1px 0 #fff5, 0 4px 17px #06040825;
+        flex-shrink: 0;
+      }
+      .pq-dialog .pq-action:after {
+        content: "↗";
+        position: absolute;
+        right: 21px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        font-weight: 400;
+      }
+      .pq-dialog .pq-action:disabled {
+        background: #73607f;
+        color: #e2d3eb;
+        cursor: default;
+        transform: none;
+      }
+      .pq-dialog .pq-action:hover:enabled {
+        background: #eddbf6;
+      }
+      .pq-game-best {
+        text-align: center;
+        font-size: 10px;
+        color: #a993b5;
+        margin: 11px 0 0;
+        flex-shrink: 0;
+      }
+
+      /* --- Responsive Breakpoints --- */
+      @media (min-width: 1600px) {
+        .pq-world {
+          padding: 34px 70px 70px;
+        }
+        .pq-world-heading {
+          margin-top: 66px;
+        }
+        .pq-world-stage {
+          margin-top: 35px;
+        }
+      }
+
+      @media (min-width: 769px) and (max-width: 1050px) {
+        .pq-world {
+          padding: 26px 28px 45px;
+          min-height: 780px;
+        }
+        .pq-world-heading {
+          gap: 24px;
+        }
+        .pq-world h2 {
+          font-size: 72px;
+        }
+        .pq-world-intro p {
+          font-size: 13px;
+        }
+        .pq-world-gallery {
+          gap: 12px;
+        }
+        .pq-world-role {
+          font-size: 21px;
+        }
+        .pq-world-story {
+          display: block;
+        }
+        .pq-world-story p {
+          margin-top: 9px;
+        }
+      }
+
+      @media (min-width: 769px) and (max-height: 780px) {
+        .pq-game-intro {
+          padding: 26px 30px 21px;
+        }
+        .pq-game-intro > img {
+          margin-bottom: 24px;
+          width: 115px;
+        }
+        .pq-game-intro h2 {
+          font-size: 67px;
+          margin: 12px 0 15px;
+        }
+        .pq-game-intro > p {
+          font-size: 12px;
+        }
+        .pq-champion {
+          min-height: 142px;
+          margin: 13px 0;
+        }
+        .pq-champion h3 {
+          font-size: 22px;
+        }
+        .pq-champion p {
+          font-size: 9px;
+        }
+        .pq-game-intro .pq-rules {
+          padding-top: 14px;
+          margin-bottom: 17px;
+        }
+        .pq-game {
+          padding: 27px 27px 19px;
+        }
+        .pq-game-top {
+          margin-bottom: 13px;
+        }
+        .pq-stat {
+          padding: 10px 13px;
+        }
+        .pq-hud {
+          font-size: 26px;
+        }
+        .pq-timebar {
+          margin: 11px 0 12px;
+        }
+        .pq-board-caption {
+          margin-bottom: 10px;
+        }
+        .pq-card {
+          aspect-ratio: 1.23;
+        }
+        .pq-board {
+          gap: 8px;
+        }
+        .pq-game-note {
+          margin: 10px 0;
+        }
+        .pq-heroes {
+          margin-bottom: 11px;
+          gap: 5px;
+        }
+        .pq-hero {
+          min-height: 51px;
+        }
+        .pq-dialog .pq-action {
+          min-height: 44px;
+        }
+        .pq-game-best {
+          margin-top: 9px;
+        }
+      }
+
+      @media (min-width: 769px) and (max-height: 660px) {
+        .pq-dialog {
+          height: calc(100svh - 24px);
+        }
+        .pq-game {
+          overflow-y: auto;
+          justify-content: flex-start;
+        }
+        .pq-champion {
+          min-height: 130px;
+        }
+        .pq-game-intro > img {
+          margin-bottom: 16px;
+        }
+        .pq-game-intro h2 {
+          font-size: 52px;
+        }
+        .pq-game-intro > p {
+          font-size: 11px;
+        }
+        .pq-game-intro .pq-rules {
+          font-size: 9px;
+        }
+        .pq-game-intro small {
+          font-size: 8px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .pq-world {
+          padding: 24px 0 38px;
+          min-height: 0;
+          border-radius: 0 !important;
+        }
+        .pq-world-top {
+          margin: 0 22px;
+          font-size: 8px;
+          letter-spacing: 0.08em;
+          padding-bottom: 17px;
+        }
+        .pq-world-top img {
+          width: 17px;
+          height: 17px;
+        }
+        .pq-world-heading {
+          display: block;
+          margin: 34px 24px 0;
+        }
+        .pq-world h2 {
+          font-size: clamp(46px, 12.4vw, 82px);
+          line-height: 0.98;
+          letter-spacing: -0.05em;
+        }
+        .pq-world-intro {
+          max-width: 100%;
+          margin-top: 26px;
+          padding: 0;
+        }
+        .pq-world-kicker {
+          font-size: 8px;
+        }
+        .pq-world-intro p {
+          font-size: 13px;
+          line-height: 1.55;
+          max-width: 340px;
+          margin: 9px 0 12px;
+        }
+        .pq-world-invitation {
+          font-size: 10px;
+        }
+        .pq-world-stage {
+          padding-top: 4px;
+          margin-top: 10px;
+        }
+        .pq-world-orbit {
+          top: 29%;
+          height: 45%;
+        }
+        .pq-world-gallery {
+          display: flex;
+          gap: 22px;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          scrollbar-width: none;
+          padding: 30px 25px 23px;
+        }
+        .pq-world-gallery::-webkit-scrollbar {
+          display: none;
+        }
+        .pq-world-section-title {
+          margin: 0 24px;
+          padding-top: 20px;
+          font-size: 10px;
+        }
+        .pq-world-gallery--captains,
+        .pq-world-gallery--bashers,
+        .pq-world-gallery--legacy {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+          overflow: visible;
+          padding: 24px 24px 20px;
+          justify-content: center;
+        }
+        .pq-world-gallery--captains .pq-world-hero,
+        .pq-world-gallery--bashers .pq-world-hero,
+        .pq-world-gallery--legacy .pq-world-hero {
+          flex: none;
+          width: 100%;
+          min-width: 0;
+        }
+        .pq-world-gallery--captains .pq-world-portrait,
+        .pq-world-gallery--bashers .pq-world-portrait,
+        .pq-world-gallery--legacy .pq-world-portrait {
+          height: auto;
+          aspect-ratio: 0.68;
+          max-height: 240px;
+          border-radius: 80px 80px 14px 14px;
+        }
+        .pq-world-gallery--captains .pq-world-role,
+        .pq-world-gallery--bashers .pq-world-role,
+        .pq-world-gallery--legacy .pq-world-role {
+          font-size: 22px;
+        }
+        .pq-world-hero {
+          flex: 0 0 min(60vw, 260px);
+          width: min(60vw, 260px);
+          scroll-snap-align: center;
+          transform: rotate(0);
+        }
+        .pq-world-hero.is-selected {
+          transform: translateY(-5px);
+        }
+        .pq-world-hero:hover {
+          transform: translateY(-8px);
+        }
+        .pq-world-portrait {
+          height: 310px;
+          aspect-ratio: auto;
+          max-height: none;
+          border-radius: 130px 130px 18px 18px;
+        }
+        .pq-world-creature {
+          height: 76%;
+          width: 94%;
+          left: 3%;
+        }
+        .pq-world-role {
+          font-size: 28px;
+          margin-top: 16px;
+        }
+        .pq-world-species,
+        .pq-world-pick {
+          font-size: 8px;
+        }
+        .pq-world-controls {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 22px;
+          margin: 0 0 26px;
+        }
+        .pq-world-controls button {
+          width: 38px;
+          height: 38px;
+          border: 1px solid #a58e783d;
+          border-radius: 50%;
+          background: #f7f3ed;
+          font-size: 18px;
+          color: #5a475e;
+          cursor: pointer;
+        }
+        .pq-world-controls > span {
+          font-size: 9px;
+          letter-spacing: 0.12em;
+          color: #88786d;
+          min-width: 46px;
+          text-align: center;
+        }
+        .pq-world-bottom {
+          margin: 0 24px;
+          padding-top: 23px;
+          display: flex;
+          flex-direction: column;
+          gap: 22px;
+        }
+        .pq-world-story {
+          display: block;
+          text-align: center;
+        }
+        .pq-world-story-name {
+          font-size: 9px;
+        }
+        .pq-world-story p {
+          font-size: 12px;
+          max-width: 300px;
+          margin: 8px auto 0;
+        }
+        .pq-world-action {
+          width: 100%;
+        }
+        .pq-world-action > span {
+          margin-top: 12px;
+        }
+        .pq-world-action .pq-round-button {
+          width: 100%;
+          max-width: 330px;
+        }
+        .pq-round-button {
+          min-width: 0;
+          gap: 12px;
+          min-height: 70px;
+          padding: 12px 14px;
+        }
+        .pq-round-label strong {
+          font-size: 14px;
+        }
+        .pq-round-time {
+          font-size: 19px;
+          margin-left: 0;
+          padding-left: 13px;
+        }
+
+        /* Mobile Dialog */
+        .pq-dialog {
+          width: 100%;
+          height: 100svh;
+          max-height: 100svh;
+          border: 0;
+          border-radius: 0;
+          padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+        }
+        .pq-dialog[open] {
+          display: flex;
+          flex-direction: column;
+        }
+        .pq-close {
+          width: 36px;
+          height: 36px;
+          right: 19px;
+          top: max(19px, env(safe-area-inset-top));
+          font-size: 24px;
+        }
+        .pq-game-intro {
+          padding: 22px 21px 0;
+          display: block;
+          overflow: visible;
+          border: 0;
+          background: none;
+          flex-shrink: 0;
+        }
+        .pq-game-intro > img {
+          display: block;
+          width: 99px;
+          height: 28px;
+          margin: 0 0 15px;
+        }
+        .pq-game-intro > .pq-eyebrow,
+        .pq-game-intro > p,
+        .pq-game-intro > .pq-rules,
+        .pq-game-intro > small,
+        .pq-champion,
+        .pq-selected-hero {
+          display: none;
+        }
+        .pq-game-intro h2 {
+          font-size: 43px;
+          line-height: 1;
+          margin: 0;
+          letter-spacing: -0.055em;
+        }
+        .pq-game-intro h2 em {
+          display: inline;
+        }
+        .pq-game {
+          padding: 19px 21px 20px;
+          flex: 1;
+          min-height: 0;
+          overflow-y: auto;
+          justify-content: flex-start;
+          background: radial-gradient(
+            ellipse at 85% 40%,
+            #76598219,
+            transparent 65%
+          );
+        }
+        .pq-game-top {
+          font-size: 8px;
+          letter-spacing: 0.11em;
+          margin-bottom: 16px;
+          padding-right: 0;
+        }
+        .pq-phase {
+          font-size: 6px;
+        }
+        .pq-hud {
+          font-size: 27px;
+          gap: 7px;
+          grid-template-columns: 1.13fr 1fr 0.87fr;
+        }
+        .pq-stat {
+          padding: 13px 11px 12px;
+          border-radius: 10px;
+        }
+        .pq-hud small {
+          font-size: 9px;
+          letter-spacing: 0.12em;
+          margin-bottom: 11px;
+          gap: 4px;
+        }
+        .pq-hud small span {
+          font-size: 11px;
+        }
+        .pq-combo-dots {
+          gap: 2px;
+          margin-left: 5px;
+        }
+        .pq-timebar {
+          margin: 12px 0 15px;
+        }
+        .pq-board-caption {
+          font-size: 8px;
+          margin-bottom: 12px;
+        }
+        .pq-pairs {
+          font-size: 9px;
+          gap: 7px;
+        }
+        #pq-pair-marks {
+          gap: 3px;
+        }
+        #pq-pair-marks i {
+          width: 4px;
+          height: 4px;
+        }
+        .pq-board {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 8px;
+          max-width: 410px;
+          margin: auto;
+        }
+        .pq-card {
+          aspect-ratio: 1.3;
+        }
+        .pq-card-back > svg {
+          width: 92%;
+          height: 100%;
+        }
+        .pq-face-label {
+          font-size: 8px;
+          bottom: 5%;
+        }
+        .pq-card-front > svg {
+          inset: 5% 8% 18%;
+          width: 84%;
+          height: 77%;
+        }
+        .pq-game-note {
+          font-size: 11px;
+          min-height: 30px;
+          max-width: 290px;
+          margin: 12px auto 8px;
+          line-height: 1.4;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .pq-heroes {
+          gap: 5px;
+          margin: 0 0 12px;
+        }
+        .pq-hero {
+          min-height: 52px;
+          font-size: 10px;
+          gap: 3px;
+          padding: 5px 1px;
+        }
+        .pq-dialog .pq-action {
+          font-size: 12px;
+          min-height: 48px;
+          margin: 0;
+        }
+        .pq-game-best {
+          font-size: 10px;
+          margin: 12px 0 0;
+        }
+        .pq-result h3 {
+          font-size: 37px;
+        }
+        .pq-result-score {
+          font-size: 45px;
+        }
+        .pq-result p {
+          font-size: 11px;
+        }
+        .pq-result .pq-button {
+          min-height: 42px;
+          margin-top: 10px;
+        }
+      }
+
+      @media (max-width: 768px) and (max-height: 760px) {
+        .pq-game-intro {
+          padding-top: 17px;
+        }
+        .pq-game-intro > img {
+          width: 72px;
+          height: 24px;
+          margin-bottom: 10px;
+        }
+        .pq-game-intro h2 {
+          font-size: 36px;
+        }
+        .pq-game {
+          padding-top: 13px;
+        }
+        .pq-game-top {
+          margin-bottom: 12px;
+        }
+        .pq-stat {
+          padding: 10px;
+        }
+        .pq-hud {
+          font-size: 24px;
+        }
+        .pq-card {
+          aspect-ratio: 1.5;
+        }
+        .pq-game-note {
+          margin: 8px auto 5px;
+        }
+        .pq-hero {
+          min-height: 45px;
+        }
+        .pq-heroes {
+          margin-bottom: 10px;
+        }
+        .pq-dialog .pq-action {
+          min-height: 44px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .pq-round-label strong {
+          font-size: 13px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .pq-card-inner,
+        .pq-button,
+        .pq-world-hero,
+        .pq-round-button {
+          transition: none;
+        }
+        .pq-world-creature,
+        .pq-dialog * {
+          animation: none !important;
+          transition: none !important;
+        }
+        .pq-round-button:hover,
+        .pq-round-button:active {
+          transform: none;
+        }
+      }
+
+      /* Character detail modal */
+      .pq-char-modal { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(36,32,31,.45); backdrop-filter: blur(6px); }
+      .pq-char-modal.is-open { display: flex; }
+      .pq-char-modal__card { position: relative; width: min(92vw, 420px); background: linear-gradient(180deg,#f7f3ed 0%,#efe6d8 100%); border: 1px solid #d8c9b5; border-radius: 24px; box-shadow: 0 24px 60px rgba(36,32,31,.25); padding: 28px 24px 24px; text-align: center; font-family: Switzer, Arial, sans-serif; color: #24201f; }
+      .pq-char-modal__close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border: 1px solid #d8c9b5; border-radius: 50%; background: #fff; color: #5a475e; font-size: 22px; line-height: 1; cursor: pointer; }
+      .pq-char-modal__portrait { width: min(70vw, 260px); aspect-ratio: 0.68; margin: 0 auto 18px; border-radius: 100px 100px 18px 18px; background: linear-gradient(155deg, color-mix(in srgb, var(--hero-color,#a9cbb7) 64%, #fff8ed), var(--hero-color,#a9cbb7)); border: 1px solid #ffffffa6; box-shadow: 0 20px 26px -20px #33261e80, inset 0 0 0 7px #fff6; overflow: hidden; position: relative; }
+      .pq-char-modal__portrait svg, .pq-char-modal__portrait img { position: absolute; left: 5%; bottom: 38px; width: 90%; height: 76%; object-fit: contain; }
+      .pq-char-modal__portrait img.pq-char-modal__avatar { left: 0; bottom: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+      .pq-char-modal__name { margin: 0; font: 300 clamp(32px,6vw,44px)/1.1 "PP Pangaia", Georgia, serif; letter-spacing: -0.025em; }
+      .pq-char-modal__species { margin: 8px 0 0; font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #6a5648; }
+      .pq-char-modal__detail { margin: 16px 0 0; font-size: 13px; line-height: 1.6; color: #5a4f48; }
+    </style>
+  </head>
+
+  <body>
+    <!-- React Mount Point (component.js renders the Pocket World showcase here) -->
+    <div id="root">
+      <link
+        rel="preload"
+        as="image"
+        href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/d82644cac5674ea79341fc9c4d15d28f278d4712dca7c7c207a5294392b4c64a.svg"
+      />
+      <section
+        id="pocket-world"
+        class="_guilds_194d4_3 pq-world"
+        aria-labelledby="pq-world-title"
+      >
+        <!-- <div class="pq-world-top">
+          <span>
+            <img
+              crossorigin="anonymous"
+              alt=""
+              src="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/d82644cac5674ea79341fc9c4d15d28f278d4712dca7c7c207a5294392b4c64a.svg"
+            />
+            WORLD YOUR POCKET
+          </span>
+          <span>CHAPTER 07</span>
+        </div> -->
+
+        <div class="pq-world-heading">
+          <div data-guild-title="true">
+            <h2 id="pq-world-title">
+              <span>Members of <em>Aura 7F</em></span>
+            </h2>
+          </div>
+
+          <!-- <div class="pq-world-intro">
+            <span class="pq-world-kicker">FOURTEEN HEROES. ALL PERSONALITY.</span>
+            <p>
+              A knight with a brave heart. A mage with a little magic. Meet the
+              tiny legends who make every match a little more magical.
+            </p>
+            <span class="pq-world-invitation">
+              Pick the one that feels like you. ↘
+            </span>
+          </div> -->
+        </div>
+
+        <div class="pq-world-stage">
+          <div aria-hidden="true" class="pq-world-orbit"></div>
+
+          <div class="pq-world-section">
+            <h3 class="pq-world-section-title">Captain Bashers</h3>
+            <div
+              role="group"
+              aria-label="Captain Bashers"
+              class="pq-world-gallery pq-world-gallery--captains"
+            >
+            <!-- 01: The Knight -->
+            <button
+              type="button"
+              aria-label="Choose the knight — the knight"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #a9cbb7;
+                --hero-ink: #254c47;
+                --hero-angle: -4deg;
+                --hero-delay: 0s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/1468c2f93d7ff898521d0994e1571b731d945f9e25e949f1df2571c48b388b44.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">Jagadeesh</span>
+              <span class="pq-world-species">CAPTAIN BASHER · 01</span>
+            </button>
+            <!-- 02: The Paladin -->
+            <button
+              type="button"
+              aria-label="Choose the paladin — the paladin"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #adc7df;
+                --hero-ink: #314d6b;
+                --hero-angle: 4deg;
+                --hero-delay: -1.2s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/deb859392f93574515a763d6512f128baeca1835a22f908c9715d5c7f31c5dad.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">Gobika</span>
+              <span class="pq-world-species">CAPTAIN BASHER · 02</span>
+            </button>
+            </div>
+          </div>
+
+          <div class="pq-world-section">
+            <h3 class="pq-world-section-title">Bashers</h3>
+            <div
+              role="group"
+              aria-label="Bashers"
+              class="pq-world-gallery pq-world-gallery--bashers"
+            >
+            <!-- 03: The Mage -->
+            <button
+              type="button"
+              aria-label="Choose the mage — the mage"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #c7b2df;
+                --hero-ink: #50436b;
+                --hero-angle: -5deg;
+                --hero-delay: -0.6s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/2e3844c11fe91b0e2aa071f60a7f9684221d0d6a3168086673bb7a48de3f3293.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Mage</span>
+              <span class="pq-world-species">BASHER · 01</span>
+            </button>
+            <!-- 04: The Ranger -->
+            <button
+              type="button"
+              aria-label="Choose the ranger — the ranger"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #e3ac8e;
+                --hero-ink: #724433;
+                --hero-angle: -3deg;
+                --hero-delay: -1.8s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/a3af9ccddc518d19d901c1b987aa5680591b4a5f2d47f761ae1ed0d135ce5a9c.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Ranger</span>
+              <span class="pq-world-species">BASHER · 02</span>
+            </button>
+            <!-- 05: The Bard -->
+            <button
+              type="button"
+              aria-label="Choose the bard — the bard"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #e0c577;
+                --hero-ink: #73572f;
+                --hero-angle: -1deg;
+                --hero-delay: -3s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/039b52e2583bed1e3cb9ca321d5a0ac78016d7a55a32dbe41817eecee427f350.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Bard</span>
+              <span class="pq-world-species">BASHER · 03</span>
+            </button>
+            <!-- 06: The Rogue -->
+            <button
+              type="button"
+              aria-label="Choose the rogue — the rogue"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #d6acba;
+                --hero-ink: #683e50;
+                --hero-angle: 1deg;
+                --hero-delay: -4.2s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/28e7f1ec74bd8523d6eb14660f589f296031a6304ebcd28b0c6fa95c7de7db94.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Rogue</span>
+              <span class="pq-world-species">BASHER · 04</span>
+            </button>
+            <!-- 07: The Healer -->
+            <button
+              type="button"
+              aria-label="Choose the healer — the healer"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #b8dcc5;
+                --hero-ink: #2f5a53;
+                --hero-angle: 3deg;
+                --hero-delay: -5.4s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/1468c2f93d7ff898521d0994e1571b731d945f9e25e949f1df2571c48b388b44.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Healer</span>
+              <span class="pq-world-species">BASHER · 05</span>
+            </button>
+            <!-- 08: The Druid -->
+            <button
+              type="button"
+              aria-label="Choose the druid — the druid"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #d4b896;
+                --hero-ink: #6b4f33;
+                --hero-angle: 5deg;
+                --hero-delay: -6.6s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/a3af9ccddc518d19d901c1b987aa5680591b4a5f2d47f761ae1ed0d135ce5a9c.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Druid</span>
+              <span class="pq-world-species">BASHER · 06</span>
+            </button>
+            <!-- 09: The Berserker -->
+            <button
+              type="button"
+              aria-label="Choose the berserker — the berserker"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #c9b4d8;
+                --hero-ink: #4a3f66;
+                --hero-angle: -4deg;
+                --hero-delay: -7.8s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/deb859392f93574515a763d6512f128baeca1835a22f908c9715d5c7f31c5dad.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Berserker</span>
+              <span class="pq-world-species">BASHER · 07</span>
+            </button>
+            <!-- 10: The Monk -->
+            <button
+              type="button"
+              aria-label="Choose the monk — the monk"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #e8c98a;
+                --hero-ink: #6e5428;
+                --hero-angle: -2deg;
+                --hero-delay: -9s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/039b52e2583bed1e3cb9ca321d5a0ac78016d7a55a32dbe41817eecee427f350.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Monk</span>
+              <span class="pq-world-species">BASHER · 08</span>
+            </button>
+            <!-- 11: The Archer -->
+            <button
+              type="button"
+              aria-label="Choose the archer — the archer"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #ddb7c3;
+                --hero-ink: #624050;
+                --hero-angle: 2deg;
+                --hero-delay: -10.2s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/28e7f1ec74bd8523d6eb14660f589f296031a6304ebcd28b0c6fa95c7de7db94.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Archer</span>
+              <span class="pq-world-species">BASHER · 09</span>
+            </button>
+            <!-- 12: The Alchemist -->
+            <button
+              type="button"
+              aria-label="Choose the alchemist — the alchemist"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #b3cbe0;
+                --hero-ink: #35506a;
+                --hero-angle: 4deg;
+                --hero-delay: -11.4s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg
+                  aria-hidden="true"
+                  class="pq-world-creature"
+                  viewBox="0 0 1024 1536"
+                >
+                  <image
+                    width="1024"
+                    height="1536"
+                    href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/2e3844c11fe91b0e2aa071f60a7f9684221d0d6a3168086673bb7a48de3f3293.webp"
+                  />
+                </svg>
+               
+              </div>
+              <span class="pq-world-role">The Alchemist</span>
+              <span class="pq-world-species">BASHER · 10</span>
+            </button>
+            </div>
+          </div>
+
+          <div class="pq-world-section">
+            <h3 class="pq-world-section-title">Legacy Basher</h3>
+            <div
+              role="group"
+              aria-label="Legacy Basher"
+              class="pq-world-gallery pq-world-gallery--legacy"
+            >
+            <button
+              type="button"
+              aria-label="Choose the sage — the sage"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #c7b2df;
+                --hero-ink: #50436b;
+                --hero-angle: -3deg;
+                --hero-delay: -12.6s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/039b52e2583bed1e3cb9ca321d5a0ac78016d7a55a32dbe41817eecee427f350.webp" />
+                </svg>
+                <span class="pq-world-pick">CHOOSE HERO</span>
+              </div>
+              <span class="pq-world-role">The Sage</span>
+              <span class="pq-world-species">LEGACY BASHER · 01</span>
+            </button>
+            <button
+              type="button"
+              aria-label="Choose the guardian — the guardian"
+              aria-pressed="false"
+              class="pq-world-hero"
+              style="
+                --hero-color: #adc7df;
+                --hero-ink: #314d6b;
+                --hero-angle: 3deg;
+                --hero-delay: -13.8s;
+              "
+            >
+              <div class="pq-world-portrait">
+                <span aria-hidden="true" class="pq-world-spark">✦</span>
+                <div aria-hidden="true" class="pq-world-halo"></div>
+                <div aria-hidden="true" class="pq-world-shadow"></div>
+                <svg aria-hidden="true" class="pq-world-creature" viewBox="0 0 1024 1536">
+                  <image width="1024" height="1536" href="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/aura-weekly-2026-11/a3af9ccddc518d19d901c1b987aa5680591b4a5f2d47f761ae1ed0d135ce5a9c.webp" />
+                </svg>
+                <span class="pq-world-pick">CHOOSE HERO</span>
+              </div>
+              <span class="pq-world-role">The Guardian</span>
+              <span class="pq-world-species">LEGACY BASHER · 02</span>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pq-world-controls">
+          <button type="button" aria-label="Previous hero">←</button>
+          <span aria-live="polite">14 HEROES</span>
+          <button type="button" aria-label="Next hero">→</button>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- Relic Rush Mini-Game Dialog -->
+    <dialog
+      id="pq-game"
+      class="pq-dialog"
+      aria-describedby="pq-game-instructions"
+      aria-labelledby="pq-game-title"
+      data-lenis-prevent=""
+    >
+      <button type="button" class="pq-close" aria-label="Close game">×</button>
+
+      <!-- Left Panel: Champion & Rules -->
+      <div class="pq-game-intro">
+        <img alt="Pocket Quest" data-asset="/Logo.svg" />
+        <span class="pq-eyebrow">A LITTLE MATCH. A LITTLE MAGIC.</span>
+        <h2 id="pq-game-title">Relic <em>Rush.</em></h2>
+        <p id="pq-game-instructions">
+          A quick look. A little focus.<br />
+          Find six pairs before the magic runs out.
+        </p>
+
+        <div class="pq-champion">
+          <span aria-hidden="true" class="pq-champion-orbit"></span>
+          <span aria-hidden="true" class="pq-champion-star star-one">✧</span>
+          <span aria-hidden="true" class="pq-champion-star star-two">✦</span>
+          <svg
+            role="img"
+            aria-label="Your champion: Knight"
+            class="pq-selected-hero"
+            viewBox="0 0 1024 1536"
+          >
+            <image width="1024" height="1536" />
+          </svg>
+          <span class="pq-champion-label">YOUR CHAMPION</span>
+          <h3 id="pq-champion-name">The Knight</h3>
+          <p id="pq-champion-line">A small sword. Unshakeable courage.</p>
+        </div>
+
+        <ol class="pq-rules">
+          <li><b>01</b><span>Take a peek</span></li>
+          <li><b>02</b><span>Find the pairs</span></li>
+          <li><b>03</b><span>Beat your best</span></li>
+        </ol>
+
+        <small>
+          <span class="pq-live-dot"></span> Free to play · Made for little breaks
+        </small>
+      </div>
+
+      <!-- Right Panel: Game Board & Controls -->
+      <div class="pq-game">
+        <div class="pq-game-top">
+          <span>01 / THE MEMORY CHALLENGE</span>
+          <span class="pq-phase" id="pq-phase">READY TO PLAY</span>
+        </div>
+
+        <div class="pq-hud">
+          <div class="pq-stat pq-stat-time">
+            <small><span aria-hidden="true">◷</span> TIME LEFT</small>
+            <span class="pq-time" id="pq-time">00:30</span>
+          </div>
+          <div class="pq-stat pq-stat-score">
+            <small><span aria-hidden="true">✧</span> SCORE</small>
+            <span id="pq-score">0</span>
+          </div>
+          <div class="pq-stat pq-stat-combo">
+            <small><span aria-hidden="true">ϟ</span> COMBO</small>
+            <span id="pq-combo">×1</span>
+            <span
+              aria-hidden="true"
+              class="pq-combo-dots"
+              id="pq-combo-dots"
+            >
+              <i></i><i></i><i></i>
+            </span>
+          </div>
+        </div>
+
+        <div aria-hidden="true" class="pq-timebar">
+          <span id="pq-time-fill"></span>
+        </div>
+
+        <div class="pq-board-caption">
+          <span>FIND YOUR FAMILIAR FACES</span>
+          <span class="pq-pairs">
+            <span id="pq-pair-count">0 / 6 pairs</span>
+            <span aria-hidden="true" id="pq-pair-marks">
+              <i></i><i></i><i></i><i></i><i></i><i></i>
+            </span>
+          </span>
+        </div>
+
+        <!-- <div class="pq-board-wrap">
+          <div
+            role="group"
+            aria-label="Twelve hero cards"
+            class="pq-board"
+            id="pq-board"
+          ></div>
+
+          <div
+            id="pq-result"
+            class="pq-result"
+            aria-live="polite"
+            hidden=""
+          >
+            <span class="pq-eyebrow" id="pq-result-label">ROUND COMPLETE</span>
+            <h3 id="pq-result-title">A little<br />victory.</h3>
+            <div class="pq-result-score" id="pq-result-score">0</div>
+            <p id="pq-result-detail"></p>
+            <button type="button" class="pq-button" id="pq-again">
+              One more round
+            </button>
+          </div>
+        </div>
+
+        <p
+          role="status"
+          aria-live="polite"
+          class="pq-game-note"
+          id="pq-note"
+        >
+          Pick your champion. Then put your memory to the test.
+        </p>
+
+        <div role="group" aria-label="Choose your champion" class="pq-heroes">
+          <button
+            type="button"
+            aria-pressed="true"
+            class="pq-hero"
+            data-hero="knight"
+          >
+            Knight
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="pq-hero"
+            data-hero="ranger"
+          >
+            Ranger
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="pq-hero"
+            data-hero="bard"
+          >
+            Bard
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="pq-hero"
+            data-hero="paladin"
+          >
+            Paladin
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="pq-hero"
+            data-hero="mage"
+          >
+            Mage
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            class="pq-hero"
+            data-hero="rogue"
+          >
+            Rogue
+          </button>
+        </div> -->
+
+        <button type="button" class="pq-button pq-action" id="pq-start">
+          Start 30-second round
+        </button>
+
+        <p class="pq-game-best" id="pq-best">
+          Personal best: 0 · Saved on this device
+        </p>
+      </div>
+    </dialog>
+
+    <div class="pq-char-modal" id="pq-char-modal" aria-hidden="true">
+      <div class="pq-char-modal__card" role="dialog" aria-modal="true" aria-labelledby="pq-char-modal-name">
+        <button type="button" class="pq-char-modal__close" id="pq-char-modal-close" aria-label="Close">×</button>
+        <div class="pq-char-modal__portrait" id="pq-char-modal-portrait"></div>
+        <h3 class="pq-char-modal__name" id="pq-char-modal-name"></h3>
+        <p class="pq-char-modal__species" id="pq-char-modal-species"></p>
+        <p class="pq-char-modal__detail" id="pq-char-modal-detail"></p>
+      </div>
+    </div>
+
+    <script>
+      (() => {
+        const modal = document.getElementById("pq-char-modal");
+        const portrait = document.getElementById("pq-char-modal-portrait");
+        const nameEl = document.getElementById("pq-char-modal-name");
+        const speciesEl = document.getElementById("pq-char-modal-species");
+        const detailEl = document.getElementById("pq-char-modal-detail");
+        const closeBtn = document.getElementById("pq-char-modal-close");
+        if (!modal) return;
+        function openFromCard(card) {
+          const name = card.querySelector(".pq-world-role")?.textContent?.trim() || "Character";
+          const species = card.querySelector(".pq-world-species")?.textContent?.trim() || "";
+          const svgImg = card.querySelector(".pq-world-creature image");
+          const htmlImg = card.querySelector("img.pq-world-creature");
+          const heroColor = card.style.getPropertyValue("--hero-color") || "#a9cbb7";
+          portrait.style.setProperty("--hero-color", heroColor);
+          if (htmlImg) {
+            portrait.innerHTML = `<img class="pq-char-modal__avatar" src="${htmlImg.getAttribute("src") || ""}" alt="${name}">`;
+          } else if (svgImg) {
+            const href = svgImg.getAttribute("href") || svgImg.getAttribute("xlink:href") || "";
+            portrait.innerHTML = `<svg aria-hidden="true" viewBox="0 0 1024 1536"><image width="1024" height="1536" href="${href}"></image></svg>`;
+          } else {
+            portrait.innerHTML = "";
+          }
+          nameEl.textContent = name;
+          speciesEl.textContent = species;
+          detailEl.textContent = species ? `${name} is part of ${species.replace(/ · .*/, "")}.` : "";
+          modal.classList.add("is-open");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+        function close() {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+        }
+        document.querySelectorAll(".pq-world-hero").forEach((card) => {
+          card.addEventListener("click", () => openFromCard(card));
+        });
+        closeBtn?.addEventListener("click", close);
+        modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal.classList.contains("is-open")) close(); });
+      })();
+    </script>
+    <script src="./game.js"></script>
+  </body>
+</html>

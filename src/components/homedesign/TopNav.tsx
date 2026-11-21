@@ -38,7 +38,7 @@ export default function TopNav() {
 
   return (
     <>
-      <nav className="fixed inset-x-0 top-0 z-30 border-b border-white/15 bg-black/55 backdrop-blur-md">
+      <nav className="fixed inset-x-0 top-0 z-30 border-b border-white/20 bg-black/75 shadow-[0_4px_24px_rgba(0,0,0,0.45)] backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-10">
           <a href="/home-design" className="flex items-center">
             <img
